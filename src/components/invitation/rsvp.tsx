@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { Heart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { Invitation } from '@/types/domain';
 export function Rsvp({ data, token }: { data: Invitation; token: string }) {
@@ -152,11 +153,14 @@ export function Rsvp({ data, token }: { data: Invitation; token: string }) {
             />
           </label>
           <button className="button" type="submit">
+            {!pending && (
+              <Heart size={17} strokeWidth={1.6} aria-hidden="true" />
+            )}
             {pending
               ? 'Guardando…'
               : existing
                 ? 'Guardar mi respuesta'
-                : '♡ Confirmar asistencia'}
+                : 'Confirmar asistencia'}
           </button>
         </fieldset>
         <p role="status" className="feedback">

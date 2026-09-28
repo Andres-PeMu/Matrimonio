@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Heart } from 'lucide-react';
 import { requireAdmin } from '@/lib/auth/admin';
 import { logout, selectWedding } from '@/actions/auth';
 import { Navigation } from '@/components/admin/navigation';
@@ -14,9 +15,11 @@ export default async function AdminLayout({
       <aside className="admin-sidebar">
         <Link className="admin-brand" href="/admin/dashboard">
           <span className="brand-mark">
-            {wedding
-              ? `${wedding.bride_name[0]} & ${wedding.groom_name[0]}`
-              : '♡'}
+            {wedding ? (
+              `${wedding.bride_name[0]} & ${wedding.groom_name[0]}`
+            ) : (
+              <Heart size={24} strokeWidth={1.4} aria-hidden="true" />
+            )}
           </span>
           <span>
             Nuestra boda<small>UN DÍA INOLVIDABLE</small>

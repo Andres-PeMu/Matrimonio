@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Check, Clock, Heart, Mail, Minus, Users } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { requireAdmin } from '@/lib/auth/admin';
 import { RecordList, statusNames } from '@/components/admin/record-list';
@@ -78,13 +79,13 @@ export default async function SectionPage({
     check(re);
     const metrics = stats as Record<string, number> | null;
     const items = [
-      ['invitations', 'Invitaciones creadas', '✉'],
-      ['capacity', 'Cupos totales', '♧'],
-      ['confirmed', 'Invitaciones confirmadas', '✓'],
-      ['attendees', 'Personas confirmadas', '♡'],
-      ['declined', 'No asistirán', '−'],
-      ['pending', 'Pendientes', '◷'],
-    ];
+      ['invitations', 'Invitaciones creadas', Mail],
+      ['capacity', 'Cupos totales', Users],
+      ['confirmed', 'Invitaciones confirmadas', Check],
+      ['attendees', 'Personas confirmadas', Heart],
+      ['declined', 'No asistirán', Minus],
+      ['pending', 'Pendientes', Clock],
+    ] as const;
     return (
       <>
         {heading}
@@ -104,9 +105,11 @@ export default async function SectionPage({
           </Link>
         </div>
         <div className="stats-grid">
-          {items.map(([key, label, icon]) => (
+          {items.map(([key, label, Icon]) => (
             <article className="stat-card" key={key}>
-              <span className={`stat-icon ${key}`}>{icon}</span>
+              <span className={`stat-icon ${key}`}>
+                <Icon size={22} strokeWidth={1.6} aria-hidden="true" />
+              </span>
               <div>
                 <strong>{metrics?.[key] ?? 0}</strong>
                 <p>{label}</p>
@@ -134,7 +137,9 @@ export default async function SectionPage({
                 return (
                   <li key={r.id}>
                     <span className="guest-avatar">
-                      {guest?.name?.[0] ?? '♡'}
+                      {guest?.name?.[0] ?? (
+                        <Heart size={16} aria-hidden="true" />
+                      )}
                     </span>
                     <div>
                       <strong>{guest?.name}</strong>

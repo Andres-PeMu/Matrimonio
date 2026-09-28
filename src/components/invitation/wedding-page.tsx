@@ -1,4 +1,6 @@
+import { HeartOrnament } from '@/components/ui/heart-ornament';
 import Image from 'next/image';
+import { Heart } from 'lucide-react';
 import Link from 'next/link';
 import type { PublicWedding, Invitation } from '@/types/domain';
 import { Countdown } from './countdown';
@@ -50,9 +52,7 @@ export function WeddingPage({
           )}
           <div className="hero-content">
             <span className="eyebrow">{w.title}</span>
-            <div className="ornament" aria-hidden="true">
-              ❦
-            </div>
+            <HeartOrnament />
             <h1>
               <span>{w.bride_name}</span>
               <em>&</em>
@@ -89,7 +89,8 @@ export function WeddingPage({
             </div>
             {token && s.show_rsvp ? (
               <a href="#rsvp" className="button">
-                ♡ &nbsp; CONFIRMAR ASISTENCIA
+                <Heart size={17} strokeWidth={1.6} aria-hidden="true" />{' '}
+                CONFIRMAR ASISTENCIA
               </a>
             ) : (
               <a href="#detalles" className="button">
@@ -116,9 +117,7 @@ export function WeddingPage({
               <span className="eyebrow">NUESTRA HISTORIA</span>
               <h2>El comienzo de todo</h2>
               <p className="preserve-lines">{s.story}</p>
-              <div className="ornament" aria-hidden="true">
-                — ❦ —
-              </div>
+              <HeartOrnament divider />
             </div>
           </section>
         )}
@@ -244,9 +243,7 @@ export function WeddingPage({
             </section>
           ))}
         <footer className="wedding-footer">
-          <div className="ornament" aria-hidden="true">
-            ❦
-          </div>
+          <HeartOrnament />
           <p>{s.final_message}</p>
           <div className="signature">{initials}</div>
           <span className="eyebrow">CON TODO NUESTRO AMOR</span>

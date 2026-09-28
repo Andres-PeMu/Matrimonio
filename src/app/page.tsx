@@ -1,3 +1,4 @@
+import { HeartOrnament } from '@/components/ui/heart-ornament';
 import Link from 'next/link';
 import { configured } from '@/lib/supabase/server';
 import { publicWedding } from '@/lib/public-data';
@@ -8,7 +9,7 @@ export default async function Home() {
     return (
       <main id="main" className="setup-page">
         <span className="eyebrow">UN DÍA PARA RECORDAR</span>
-        <div className="ornament">❦</div>
+        <HeartOrnament />
         <h1>
           Una historia de amor,
           <br />

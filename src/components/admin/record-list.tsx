@@ -1,4 +1,5 @@
 'use client';
+import { HeartOrnament } from '@/components/ui/heart-ornament';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { RecordForm } from './record-form';
@@ -248,7 +249,7 @@ export function RecordList({
         </table>
         {rows.length === 0 && (
           <div className="empty-state">
-            <span>❦</span>
+            <HeartOrnament />
             <h3>Todavía no hay registros</h3>
             <p>Agrega el primero o cambia los filtros de búsqueda.</p>
           </div>

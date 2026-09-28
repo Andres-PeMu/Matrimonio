@@ -1,3 +1,4 @@
+import { HeartOrnament } from '@/components/ui/heart-ornament';
 import Link from 'next/link';
 import { login } from '@/actions/auth';
 import { configured } from '@/lib/supabase/server';
@@ -23,7 +24,7 @@ export default async function Login({
           <em>algo maravilloso.</em>
         </h1>
         <p>Un espacio para organizar el día que recordarán siempre.</p>
-        <div className="ornament">❦</div>
+        <HeartOrnament />
       </div>
       <div className="login-card">
         <Link href="/" className="back-link">
