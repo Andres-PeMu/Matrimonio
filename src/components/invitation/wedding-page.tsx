@@ -9,9 +9,11 @@ import { Rsvp } from './rsvp';
 export function WeddingPage({
   data,
   token,
+  hideMusic = false,
 }: {
   data: PublicWedding | Invitation;
   token?: string;
+  hideMusic?: boolean;
 }) {
   const { wedding: w, settings: s, events, locations, media } = data;
   const date = new Date(w.wedding_date);
@@ -247,7 +249,7 @@ export function WeddingPage({
           <p>{s.final_message}</p>
           <div className="signature">{initials}</div>
           <span className="eyebrow">CON TODO NUESTRO AMOR</span>
-          {s.show_music && s.music_url && (
+          {!hideMusic && s.show_music && s.music_url && (
             <audio
               controls
               preload="none"

@@ -683,6 +683,30 @@ small {
   margin: 20px auto;
   max-width: 100%;
 }
+.invitation-soundtrack {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 240px;
+  height: 135px;
+  opacity: 0;
+  border: 0;
+  pointer-events: none;
+}
+.soundtrack-toggle {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 30;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: #735b43;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
 .admin-link {
   display: block;
   font-family: var(--sans);
@@ -732,12 +756,7 @@ small {
   position: relative;
   z-index: 2;
 }
-.envelope-page h1 {
-  font-size: clamp(23px, 3vw, 32px);
-  max-width: 440px;
-  line-height: 1.5;
-  margin-bottom: 0;
-}
+
 .envelope-stage {
   --paper-texture: url('/envelope/ivory-paper.webp');
   --card-rise: 224px;
@@ -874,18 +893,25 @@ small {
   outline-offset: 8px;
 }
 .invitation-card {
+  --invitation-accent: #896749;
   opacity: 0;
   visibility: hidden;
   position: absolute;
   inset: 16px 26px auto;
   min-height: 312px;
-  background:
-    linear-gradient(#fffdf2cc, #fffdf2cc),
-    var(--paper-texture) center / 360px;
-  border: 1px solid #c2ab86;
-  outline: 1px solid #d9c6a4;
-  outline-offset: -11px;
-  padding: 29px 18px 24px;
+  background: #f2e6d2;
+  border: 3px solid #d5ad45;
+  border-image: linear-gradient(
+      135deg,
+      #b98a27,
+      #f5da83 24%,
+      #d3aa40 45%,
+      #fff0b0 62%,
+      #c9982c 82%,
+      #e8c361
+    )
+    1;
+  padding: 27px 16px 22px;
   z-index: 2;
   transform: scale(0.98);
   transition:
@@ -893,15 +919,28 @@ small {
     opacity 0.25s 0.65s;
   box-shadow: 0 3px 12px #6a4b2e1c;
 }
+.invitation-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--paper-texture) center / 360px;
+  filter: saturate(0.75);
+  opacity: 0.8;
+  pointer-events: none;
+}
 .invitation-card > span {
   font-size: 13px;
 }
 .invitation-card h2 {
   font-family: var(--script);
-  color: #896749;
+  color: var(--invitation-accent);
   font-size: clamp(29px, 4vw, 40px);
   margin: 13px 0;
   overflow-wrap: anywhere;
+}
+.invitation-card .invitation-capacity {
+  color: var(--invitation-accent);
 }
 .invitation-card p {
   font-size: 14px;
@@ -1819,10 +1858,7 @@ td small {
   .envelope-page {
     padding: 42px 18px 24px;
   }
-  .envelope-page h1 {
-    font-size: 24px;
-    max-width: 285px;
-  }
+
   .envelope-stage {
     width: min(380px, 89vw);
     margin-top: 57px;
@@ -1834,7 +1870,7 @@ td small {
   .invitation-card {
     inset: 12px 15px auto;
     min-height: 305px;
-    padding: 27px 12px 24px;
+    padding: 25px 10px 22px;
   }
   .invitation-card h2 {
     font-size: 32px;

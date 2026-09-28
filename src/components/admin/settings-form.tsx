@@ -166,8 +166,8 @@ export function SettingsForm({
           />
         </label>
         <p className="small muted">
-          El invitado decide cuándo reproducirla. Utiliza un archivo que tengas
-          permiso de compartir.
+          Comienza a sonar cuando el invitado abre el sobre. Utiliza un archivo
+          o un enlace de YouTube que tengas permiso de compartir.
         </p>
       </section>
       <div className="sticky-save">
