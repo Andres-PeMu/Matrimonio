@@ -190,7 +190,7 @@ export function WeddingPage({
                         )}
                         <a
                           className="text-link"
-                          href={`https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=;${location.latitude},${location.longitude}`}
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${location.latitude},${location.longitude}&travelmode=driving`}
                           target="_blank"
                           rel="noreferrer"
                         >

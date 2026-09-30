@@ -153,7 +153,7 @@ http://localhost:3000/i/dev-familia-pena-00000000000000000000000000000000
 
 Antes de subir, el navegador reduce la imagen a 1800 px y WebP; admite originales de hasta 20 MB. Servidor y bucket limitan el resultado a 4 MB. Este límite deja margen para multipart dentro del límite de petición de Vercel. El servidor verifica MIME y firma JPG/PNG/WebP. `next/image` optimiza las fotografías y carga la galería de forma diferida. El fondo decorativo está en WebP y sus detalles de generación están en [docs/ASSETS.md](docs/ASSETS.md).
 
-Leaflet usa OpenStreetMap con atribución, zoom máximo 19 y carga bajo demanda en la invitación. No hay geocoding, Google Maps SDK ni claves de mapas. El botón Cómo llegar abre las indicaciones de OpenStreetMap. Las teselas públicas requieren respetar su [política de uso](https://operations.osmfoundation.org/policies/tiles/); no se precargan ni descargan mapas offline. El límite de galería y fotografías debe adecuarse al presupuesto de transferencia del proyecto.
+Leaflet usa OpenStreetMap con atribución, zoom máximo 19 y carga bajo demanda en la invitación. No hay geocoding, Google Maps SDK ni claves de mapas. El botón Cómo llegar abre Google Maps (app del celular o navegador) con un enlace público de [Google Maps URLs](https://developers.google.com/maps/documentation/urls/get-started), sin clave ni costo; al no indicar origen, Google usa la ubicación actual del invitado. Las teselas públicas requieren respetar su [política de uso](https://operations.osmfoundation.org/policies/tiles/); no se precargan ni descargan mapas offline. El límite de galería y fotografías debe adecuarse al presupuesto de transferencia del proyecto.
 
 ## Pruebas y calidad
 
