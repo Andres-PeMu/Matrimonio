@@ -34,8 +34,10 @@ end $$;
 select public.submit_rsvp('dev-familia-pena-00000000000000000000000000000000','DECLINED',array[]::text[],'');
 do $$ begin if exists(select 1 from public.attendees) then raise exception 'TEST: declined attendees remain';end if;end $$;
 update public.weddings set rsvp_deadline=now()-interval '1 second';
+select public.submit_rsvp('dev-familia-pena-00000000000000000000000000000000','CONFIRMED',array['Nombre alterado'],'');
 do $$ begin
- begin perform public.submit_rsvp('dev-familia-pena-00000000000000000000000000000000','CONFIRMED',array['A'],'');raise exception 'TEST: expired accepted';exception when raise_exception then if sqlerrm<>'DEADLINE_PASSED' then raise;end if;end;
+ if not exists(select 1 from public.guest_confirmations c join public.weddings w on w.id=c.wedding_id where c.confirmed_at>w.rsvp_deadline) then raise exception 'TEST: late answer rejected';end if;
+ if exists(select 1 from public.attendees where is_primary_guest and name='Nombre alterado') then raise exception 'TEST: primary guest renamed';end if;
 end $$;
 update public.guests set invitation_token=encode(gen_random_bytes(32),'hex') where invitation_token='dev-familia-pena-00000000000000000000000000000000';
 do $$ begin

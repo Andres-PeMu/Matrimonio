@@ -3,6 +3,7 @@ import { Heart } from 'lucide-react';
 import { requireAdmin } from '@/lib/auth/admin';
 import { logout, selectWedding } from '@/actions/auth';
 import { Navigation } from '@/components/admin/navigation';
+import { coupleShortName } from '@/lib/names';
 export const dynamic = 'force-dynamic';
 export default async function AdminLayout({
   children,
@@ -16,7 +17,7 @@ export default async function AdminLayout({
         <Link className="admin-brand" href="/admin/dashboard">
           <span className="brand-mark">
             {wedding ? (
-              `${wedding.bride_name[0]} & ${wedding.groom_name[0]}`
+              coupleShortName(wedding.bride_name, wedding.groom_name)
             ) : (
               <Heart size={24} strokeWidth={1.4} aria-hidden="true" />
             )}

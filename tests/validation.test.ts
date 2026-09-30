@@ -59,25 +59,9 @@ test('RSVP accepts a confirmation and a decline, rejects inconsistent names', ()
     false,
   );
 });
-test('tampered capacity and elapsed deadline are rejected', () => {
-  assert.throws(
-    () =>
-      validateRsvpLimit(20, 4, '2027-11-01T23:59:59Z', new Date('2027-10-01')),
-    /cupos/,
-  );
-  assert.throws(
-    () =>
-      validateRsvpLimit(1, 4, '2027-11-01T23:59:59Z', new Date('2027-11-02')),
-    /finalizado/,
-  );
-  assert.doesNotThrow(() =>
-    validateRsvpLimit(
-      4,
-      4,
-      '2027-11-01T23:59:59Z',
-      new Date('2027-11-01T23:59:59Z'),
-    ),
-  );
+test('tampered capacity is rejected', () => {
+  assert.throws(() => validateRsvpLimit(20, 4), /cupos/);
+  assert.doesNotThrow(() => validateRsvpLimit(4, 4));
 });
 test('short and invalid tokens are rejected before querying', () => {
   for (const token of ['1', 'abc', "' OR 1=1 --", 'a'.repeat(129)])

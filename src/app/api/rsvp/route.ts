@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     const db = adminClient();
     const { data: g, error } = await db
       .from('guests')
-      .select('guest_limit,wedding_id')
+      .select('name,guest_limit,wedding_id')
       .eq('invitation_token', v.token)
       .maybeSingle();
     if (error) throw error;
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
       );
     const { data: w } = await db
       .from('weddings')
-      .select('rsvp_deadline,status')
+      .select('status')
       .eq('id', g.wedding_id)
       .single();
     if (!w || w.status !== 'PUBLISHED')
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
         { status: 404 },
       );
     try {
-      validateRsvpLimit(v.names.length, g.guest_limit, w.rsvp_deadline);
+      validateRsvpLimit(v.names.length, g.guest_limit);
     } catch (e) {
       return NextResponse.json(
         { message: (e as Error).message },
@@ -66,15 +66,14 @@ export async function POST(request: Request) {
     const { error: saveError } = await db.rpc('submit_rsvp', {
       p_token: v.token,
       p_status: v.status,
-      p_names: v.names,
+      p_names:
+        v.status === 'CONFIRMED' ? [g.name, ...v.names.slice(1)] : v.names,
       p_message: v.message,
     });
     if (saveError) {
-      const msg = saveError.message.includes('DEADLINE_PASSED')
-        ? 'El periodo de confirmación ha finalizado.'
-        : saveError.message.includes('INVALID_ATTENDEES')
-          ? 'Revisa los cupos de tu invitación.'
-          : 'No se pudo guardar tu respuesta. Comprueba que el enlace siga vigente.';
+      const msg = saveError.message.includes('INVALID_ATTENDEES')
+        ? 'Revisa los cupos de tu invitación.'
+        : 'No se pudo guardar tu respuesta. Comprueba que el enlace siga vigente.';
       return NextResponse.json({ message: msg }, { status: 400 });
     }
     return NextResponse.json(

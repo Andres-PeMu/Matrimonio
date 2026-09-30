@@ -21,11 +21,13 @@ export function RecordList({
   rows,
   locations = [],
   confirmations = [],
+  rsvpDeadline,
 }: {
   section: 'guests' | 'locations' | 'events';
   rows: Row[];
   locations?: Location[];
   confirmations?: Confirmation[];
+  rsvpDeadline?: string;
 }) {
   const router = useRouter();
   const [editing, setEditing] = useState<Row | null | undefined>(undefined);
@@ -98,8 +100,13 @@ export function RecordList({
           <tbody>
             {rows.map((r) => {
               const c = confirmations.find((c) => c.guest_id === r.id);
+              const late =
+                !!c &&
+                !!rsvpDeadline &&
+                new Date(c.confirmed_at).getTime() >
+                  new Date(rsvpDeadline).getTime();
               return (
-                <tr key={r.id}>
+                <tr key={r.id} className={late ? 'late' : undefined}>
                   <td data-label="Nombre">
                     <strong>{r.name}</strong>
                     {'email' in r && r.email && <small>{r.email}</small>}
@@ -121,6 +128,7 @@ export function RecordList({
                               { timeZone: 'America/Bogota' },
                             )
                           : '—'}
+                        {late && <small>Fuera de plazo</small>}
                       </td>
                     </>
                   ) : (

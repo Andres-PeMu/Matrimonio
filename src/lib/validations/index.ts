@@ -26,14 +26,7 @@ export const rsvpSchema = z
         message: 'Revisa los nombres de los asistentes.',
       });
   });
-export function validateRsvpLimit(
-  count: number,
-  limit: number,
-  deadline: string,
-  now = new Date(),
-) {
-  if (now.getTime() > new Date(deadline).getTime())
-    throw new Error('El periodo de confirmación ha finalizado.');
+export function validateRsvpLimit(count: number, limit: number) {
   if (count > limit)
     throw new Error('La cantidad supera los cupos de tu invitación.');
 }

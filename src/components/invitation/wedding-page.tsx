@@ -6,6 +6,21 @@ import type { PublicWedding, Invitation } from '@/types/domain';
 import { Countdown } from './countdown';
 import { EventMap } from '@/components/maps/event-map';
 import { Rsvp } from './rsvp';
+import { coupleShortName } from '@/lib/names';
+
+const dressPalette = [
+  ['Rosa antiguo', '#af8278'],
+  ['Arena', '#b9ad91'],
+  ['Verde oliva', '#7f846b'],
+  ['Malva', '#a39490'],
+  ['Azul celeste', '#bcd9ee'],
+  ['Verde menta', '#c5e4d3'],
+  ['Amarillo claro', '#f5e6a6'],
+  ['Rosa palo', '#f1cfd4'],
+  ['Lavanda', '#d9cdea'],
+  ['Durazno', '#f5d3b9'],
+] as const;
+
 export function WeddingPage({
   data,
   token,
@@ -19,7 +34,7 @@ export function WeddingPage({
   const date = new Date(w.wedding_date);
   const cover = media.find((m) => m.type === 'COVER');
   const photos = media.filter((m) => m.type === 'GALLERY');
-  const initials = `${w.bride_name[0]} & ${w.groom_name[0]}`;
+  const initials = coupleShortName(w.bride_name, w.groom_name);
   return (
     <div className="wedding-page">
       <header className="public-header">
@@ -105,7 +120,6 @@ export function WeddingPage({
         {s.show_countdown && (
           <section className="countdown-section">
             <span className="eyebrow">CADA VEZ FALTA MENOS</span>
-            <h2>Para nuestro sí, quiero</h2>
             <Countdown date={w.wedding_date} />
           </section>
         )}
@@ -157,9 +171,15 @@ export function WeddingPage({
                       <>
                         <h4>{location.name}</h4>
                         <p>
-                          {location.address}
-                          <br />
-                          {location.city}, {location.country}
+                          {location.address && (
+                            <>
+                              {location.address}
+                              <br />
+                            </>
+                          )}
+                          {[location.city, location.state, location.country]
+                            .filter(Boolean)
+                            .join(', ')}
                         </p>
                         {location.description && <p>{location.description}</p>}
                         {s.show_maps && (
@@ -193,9 +213,6 @@ export function WeddingPage({
               })
             )}
           </div>
-          <p className="small muted centered">
-            Horarios en {w.timezone.replaceAll('_', ' ')}.
-          </p>
         </section>
         {s.show_gallery && photos.length > 0 && (
           <section className="gallery-section" id="galeria">
@@ -224,12 +241,14 @@ export function WeddingPage({
             <span className="eyebrow">PARA CELEBRAR JUNTOS</span>
             <h2>Código de vestimenta</h2>
             <p className="preserve-lines">{s.dress_code}</p>
-            <div className="palette" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-              <i />
-            </div>
+            <ul className="palette" aria-label="Colores sugeridos">
+              {dressPalette.map(([label, color]) => (
+                <li key={label}>
+                  <i style={{ background: color }} aria-hidden="true" />
+                  <span>{label}</span>
+                </li>
+              ))}
+            </ul>
           </section>
         )}
         {s.show_rsvp &&

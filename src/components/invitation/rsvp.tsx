@@ -9,24 +9,25 @@ export function Rsvp({ data, token }: { data: Invitation; token: string }) {
   const [status, setStatus] = useState<'CONFIRMED' | 'DECLINED'>(
     existing?.status ?? 'CONFIRMED',
   );
-  const initial = existing?.attendees
-    .slice()
-    .sort((a, b) => Number(b.is_primary_guest) - Number(a.is_primary_guest))
-    .map((a) => a.name) ?? [data.guest.name];
-  const [names, setNames] = useState(
-    initial.length ? initial : [data.guest.name],
-  );
+  const companions =
+    existing?.attendees.filter((a) => !a.is_primary_guest).map((a) => a.name) ??
+    [];
+  const [names, setNames] = useState([data.guest.name, ...companions]);
   const [message, setMessage] = useState(existing?.message ?? '');
   const [feedback, setFeedback] = useState('');
   const [pending, setPending] = useState(false);
-  const [closed, setClosed] = useState(false);
+  const [late, setLate] = useState(false);
   useEffect(() => {
     const update = () =>
-      setClosed(Date.now() > new Date(data.wedding.rsvp_deadline).getTime());
+      setLate(Date.now() > new Date(data.wedding.rsvp_deadline).getTime());
     update();
-    const timer = setInterval(update, 1000);
+    const timer = setInterval(update, 60000);
     return () => clearInterval(timer);
   }, [data.wedding.rsvp_deadline]);
+  const deadline = new Intl.DateTimeFormat('es-CO', {
+    dateStyle: 'long',
+    timeZone: data.wedding.timezone,
+  }).format(new Date(data.wedding.rsvp_deadline));
   return (
     <section id="rsvp" className="rsvp-section">
       <div className="section-heading">
@@ -71,10 +72,13 @@ export function Rsvp({ data, token }: { data: Invitation; token: string }) {
               : 'Has indicado que no podrás asistir.'}
           </p>
         )}
-        {closed && (
-          <p className="notice">El periodo de confirmación ha finalizado.</p>
+        {late && (
+          <p className="notice">
+            El plazo de confirmación terminó el {deadline}, pero aún puedes
+            enviarnos tu respuesta.
+          </p>
         )}
-        <fieldset disabled={closed || pending}>
+        <fieldset disabled={pending}>
           <legend>¿Nos acompañas?</legend>
           <div className="choice-row">
             <label
@@ -129,8 +133,10 @@ export function Rsvp({ data, token }: { data: Invitation; token: string }) {
                     <input
                       required
                       maxLength={150}
-                      autoComplete="name"
+                      autoComplete={i === 0 ? 'off' : 'name'}
                       value={n}
+                      readOnly={i === 0}
+                      className={i === 0 ? 'readonly-field' : undefined}
                       onChange={(e) =>
                         setNames(
                           names.map((v, j) => (j === i ? e.target.value : v)),
@@ -166,14 +172,7 @@ export function Rsvp({ data, token }: { data: Invitation; token: string }) {
         <p role="status" className="feedback">
           {feedback}
         </p>
-        <p className="small muted">
-          Confirma antes del{' '}
-          {new Intl.DateTimeFormat('es-CO', {
-            dateStyle: 'long',
-            timeZone: data.wedding.timezone,
-          }).format(new Date(data.wedding.rsvp_deadline))}
-          .
-        </p>
+        <p className="small muted">Por favor confirma antes del {deadline}.</p>
       </form>
     </section>
   );

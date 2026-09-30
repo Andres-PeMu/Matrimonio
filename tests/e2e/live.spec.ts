@@ -261,7 +261,7 @@ test('real admin → guest → personalized envelope → RSVP → database → d
           .eq('id', id)
       ).error,
     );
-    const expired = await guest.request.post('/api/rsvp', {
+    const late = await guest.request.post('/api/rsvp', {
       headers: { Origin: 'http://127.0.0.1:3100' },
       data: {
         token: g!.invitation_token,
@@ -270,8 +270,7 @@ test('real admin → guest → personalized envelope → RSVP → database → d
         message: '',
       },
     });
-    expect(expired.status()).toBe(400);
-    expect((await expired.json()).message).toContain('finalizado');
+    expect(late.status()).toBe(200);
     await page.goto('/admin/guests');
     page.once('dialog', (dialog) => dialog.accept());
     await page.getByTitle('Regenerar enlace').click();

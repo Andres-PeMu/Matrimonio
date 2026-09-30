@@ -64,6 +64,8 @@ export default async function SectionPage({
   const check = (error: unknown) => {
     if (error) throw new Error('No se pudo cargar la información.');
   };
+  const isLate = (confirmedAt: string) =>
+    new Date(confirmedAt).getTime() > new Date(wedding.rsvp_deadline).getTime();
   if (section === 'dashboard') {
     const [{ data: stats, error }, { data: recent, error: re }] =
       await Promise.all([
@@ -134,8 +136,9 @@ export default async function SectionPage({
             <ul className="recent-list">
               {recent.map((r) => {
                 const guest = r.guests as unknown as { name: string };
+                const late = isLate(r.confirmed_at);
                 return (
-                  <li key={r.id}>
+                  <li key={r.id} className={late ? 'late' : undefined}>
                     <span className="guest-avatar">
                       {guest?.name?.[0] ?? (
                         <Heart size={16} aria-hidden="true" />
@@ -148,6 +151,7 @@ export default async function SectionPage({
                         {new Date(r.confirmed_at).toLocaleDateString('es-CO', {
                           timeZone: wedding.timezone,
                         })}
+                        {late && ' · Fuera de plazo'}
                       </small>
                     </div>
                     <span className={`badge ${r.status.toLowerCase()}`}>
@@ -210,10 +214,16 @@ export default async function SectionPage({
         {heading}
         <div className="confirmation-grid">
           {data?.map((c) => (
-            <article className="panel" key={c.id}>
+            <article
+              className={`panel ${isLate(c.confirmed_at) ? 'late' : ''}`}
+              key={c.id}
+            >
               <span className={`badge ${c.status.toLowerCase()}`}>
                 {statusNames[c.status as keyof typeof statusNames]}
               </span>
+              {isLate(c.confirmed_at) && (
+                <span className="badge late">Fuera de plazo</span>
+              )}
               <h2>{(c.guests as { name: string })?.name}</h2>
               <p>
                 {c.attendees_count} asistentes ·{' '}
@@ -318,6 +328,7 @@ export default async function SectionPage({
         rows={data as (Guest | Location | WeddingEvent)[]}
         locations={locations as Location[]}
         confirmations={confirmations as Confirmation[]}
+        rsvpDeadline={wedding.rsvp_deadline}
       />
       <Pagination
         section={section}
