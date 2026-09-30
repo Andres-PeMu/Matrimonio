@@ -39,7 +39,7 @@ do $$ begin
  if not exists(select 1 from public.guest_confirmations c join public.weddings w on w.id=c.wedding_id where c.confirmed_at>w.rsvp_deadline) then raise exception 'TEST: late answer rejected';end if;
  if exists(select 1 from public.attendees where is_primary_guest and name='Nombre alterado') then raise exception 'TEST: primary guest renamed';end if;
 end $$;
-update public.guests set invitation_token=encode(gen_random_bytes(32),'hex') where invitation_token='dev-familia-pena-00000000000000000000000000000000';
+update public.guests set invitation_token=encode(extensions.gen_random_bytes(32),'hex') where invitation_token='dev-familia-pena-00000000000000000000000000000000';
 do $$ begin
  begin perform public.submit_rsvp('dev-familia-pena-00000000000000000000000000000000','CONFIRMED',array['A'],'');raise exception 'TEST: revoked accepted';exception when raise_exception then if sqlerrm<>'INVITATION_NOT_FOUND' then raise;end if;end;
 end $$;
