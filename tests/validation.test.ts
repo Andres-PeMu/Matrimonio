@@ -7,6 +7,7 @@ import {
   tokenSchema,
   validateRsvpLimit,
   eventSchema,
+  settingsSchema,
 } from '../src/lib/validations';
 import { localDateTime, zonedToIso } from '../src/lib/dates';
 test('tokens use 256 bits of entropy, URL-safe encoding and do not repeat', () => {
@@ -103,4 +104,21 @@ test('events reject invalid dates and backwards times', () => {
     eventSchema.safeParse({ ...input, end_time: '15:00' }).success,
     false,
   );
+});
+test('music accepts HTTPS URLs or audio files from /music/', () => {
+  const music = settingsSchema.shape.music_url;
+  for (const value of [
+    '',
+    '/music/cancion.mp3',
+    'https://music.youtube.com/watch?v=Wmko4BscPrU',
+  ])
+    assert.ok(music.safeParse(value).success, value);
+  for (const value of [
+    'http://example.com/a.mp3',
+    '/music/../secret.mp3',
+    '/music/cancion.exe',
+    '/otra/cancion.mp3',
+    'javascript:alert(1)',
+  ])
+    assert.equal(music.safeParse(value).success, false, value);
 });

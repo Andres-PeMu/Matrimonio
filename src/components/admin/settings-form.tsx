@@ -157,17 +157,19 @@ export function SettingsForm({
           ))}
         </div>
         <label>
-          URL HTTPS de música (opcional)
+          Música (opcional)
           <input
             name="music_url"
-            type="url"
+            type="text"
+            inputMode="url"
             defaultValue={s.music_url}
-            placeholder="https://…"
+            placeholder="/music/cancion.mp3"
           />
         </label>
         <p className="small muted">
-          Comienza a sonar cuando el invitado abre el sobre. Utiliza un archivo
-          o un enlace de YouTube que tengas permiso de compartir.
+          Comienza a sonar cuando el invitado abre el sobre. Usa un archivo de
+          /music/ (recomendado: suena también en celulares) o una URL HTTPS. Los
+          enlaces de YouTube no suenan automáticamente en celulares.
         </p>
       </section>
       <div className="sticky-save">

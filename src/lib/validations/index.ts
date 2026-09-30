@@ -92,6 +92,12 @@ export const settingsSchema = z.object({
   show_music: z.boolean(),
   music_url: z.union([
     z.url().refine((v) => v.startsWith('https://'), 'Usa una URL HTTPS.'),
+    z
+      .string()
+      .regex(
+        /^\/music\/[\w.-]+\.(mp3|m4a|aac|ogg)$/,
+        'Usa una URL HTTPS o un archivo de /music/.',
+      ),
     z.literal(''),
   ]),
 });
