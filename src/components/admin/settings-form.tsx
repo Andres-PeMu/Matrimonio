@@ -4,12 +4,12 @@ import { useRouter } from 'next/navigation';
 import type { Settings, Wedding } from '@/types/domain';
 import { saveSettings } from '@/actions/manage';
 import { localDateTime, zonedToIso } from '@/lib/dates';
+import { DressColorsEditor } from './dress-colors-editor';
 const toggles = [
   ['show_story', 'Nuestra historia'],
   ['show_countdown', 'Cuenta regresiva'],
   ['show_gallery', 'Galería'],
   ['show_maps', 'Mapas'],
-  ['show_dress_code', 'Código de vestimenta'],
   ['show_rsvp', 'Confirmación de asistencia'],
   ['show_music', 'Reproductor de música'],
 ] as const;
@@ -46,6 +46,12 @@ export function SettingsForm({
             envelope_message: val('envelope_message'),
             story: val('story'),
             dress_code: val('dress_code'),
+            dress_code_eyebrow: val('dress_code_eyebrow'),
+            dress_code_title: val('dress_code_title'),
+            dress_code_note: val('dress_code_note'),
+            show_dress_code: f.has('show_dress_code'),
+            show_dress_code_colors: f.has('show_dress_code_colors'),
+            dress_code_colors: JSON.parse(val('dress_code_colors') || '[]'),
             final_message: val('final_message'),
             music_url: val('music_url'),
             ...Object.fromEntries(toggles.map(([key]) => [key, f.has(key)])),
@@ -132,7 +138,6 @@ export function SettingsForm({
         {[
           ['envelope_message', 'Mensaje del sobre', s.envelope_message],
           ['story', 'Nuestra historia', s.story],
-          ['dress_code', 'Código de vestimenta', s.dress_code],
           ['final_message', 'Mensaje final', s.final_message],
         ].map(([key, label, value]) => (
           <label key={key}>
@@ -145,6 +150,72 @@ export function SettingsForm({
             />
           </label>
         ))}
+      </section>
+      <section className="panel">
+        <h2>Código de vestimenta</h2>
+        <label className="checkbox">
+          <input
+            name="show_dress_code"
+            type="checkbox"
+            defaultChecked={s.show_dress_code}
+          />
+          Mostrar esta sección en la invitación
+        </label>
+        <div className="form-grid">
+          <label>
+            Subtítulo
+            <input
+              name="dress_code_eyebrow"
+              defaultValue={s.dress_code_eyebrow}
+              maxLength={150}
+              placeholder="PARA CELEBRAR JUNTOS"
+            />
+          </label>
+          <label>
+            Título
+            <input
+              name="dress_code_title"
+              defaultValue={s.dress_code_title}
+              maxLength={150}
+              placeholder="Código de vestimenta"
+            />
+          </label>
+        </div>
+        <label>
+          Vestimenta
+          <textarea
+            name="dress_code"
+            defaultValue={s.dress_code}
+            maxLength={2000}
+            rows={2}
+            placeholder="Formal y semi formal"
+          />
+        </label>
+        <label>
+          Nota adicional
+          <textarea
+            name="dress_code_note"
+            defaultValue={s.dress_code_note}
+            maxLength={2000}
+            rows={2}
+            placeholder="Agradecemos reservar el blanco y beige para la novia."
+          />
+        </label>
+        <p className="small muted">
+          Los campos vacíos no se muestran en la invitación.
+        </p>
+        <label className="checkbox">
+          <input
+            name="show_dress_code_colors"
+            type="checkbox"
+            defaultChecked={s.show_dress_code_colors}
+          />
+          Mostrar paleta de colores sugeridos
+        </label>
+        <DressColorsEditor
+          name="dress_code_colors"
+          initial={s.dress_code_colors}
+        />
       </section>
       <section className="panel">
         <h2>Secciones de la invitación</h2>

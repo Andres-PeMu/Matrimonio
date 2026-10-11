@@ -1,7 +1,7 @@
 -- Development data only. Map coordinates are approximate, adjust them from the admin panel.
 insert into public.weddings(id,slug,bride_name,groom_name,title,description,wedding_date,rsvp_deadline,status) values
 ('11111111-1111-4111-8111-111111111111','astrid-andres','Astrid Meléndez','Andrés Peña','Nos casamos','La historia comienza cuando dos personas que ni soñaban conocerse terminan encontrándose en el instante menos esperado, pero en el momento indicado.','2026-11-07T16:00:00-05:00','2026-10-23T23:59:59-05:00','PUBLISHED') on conflict(id) do nothing;
-insert into public.wedding_settings(wedding_id,story,dress_code) values('11111111-1111-4111-8111-111111111111','Hay encuentros que cambian la vida. El nuestro fue el comienzo de una historia llena de pequeñas aventuras, complicidad y amor. Hoy elegimos seguir escribiéndola juntos, rodeados de quienes más queremos.','Formal. Agradecemos reservar el blanco y beige para la novia.') on conflict(wedding_id) do nothing;
+insert into public.wedding_settings(wedding_id,story,dress_code,dress_code_note) values('11111111-1111-4111-8111-111111111111','Hay encuentros que cambian la vida. El nuestro fue el comienzo de una historia llena de pequeñas aventuras, complicidad y amor. Hoy elegimos seguir escribiéndola juntos, rodeados de quienes más queremos.','Formal y semi formal','Agradecemos reservar el blanco y beige para la novia.') on conflict(wedding_id) do nothing;
 insert into public.guests(wedding_id,name,guest_limit,invitation_token) values
 ('11111111-1111-4111-8111-111111111111','Familia Peña',4,'dev-familia-pena-00000000000000000000000000000000'),
 ('11111111-1111-4111-8111-111111111111','Carlos Ramírez',2,'dev-carlos-ramirez-000000000000000000000000000000'),

@@ -105,6 +105,18 @@ test('events reject invalid dates and backwards times', () => {
     false,
   );
 });
+test('dress code colors need a name and a hex color, up to 24', () => {
+  const colors = settingsSchema.shape.dress_code_colors;
+  assert.ok(colors.safeParse([]).success);
+  assert.ok(colors.safeParse([{ name: 'Lavanda', hex: '#d9cdea' }]).success);
+  for (const value of [
+    [{ name: '', hex: '#d9cdea' }],
+    [{ name: 'Lavanda', hex: 'red' }],
+    [{ name: 'Lavanda', hex: '#d9cdea; background:url(x)' }],
+    Array.from({ length: 25 }, () => ({ name: 'Arena', hex: '#b9ad91' })),
+  ])
+    assert.equal(colors.safeParse(value).success, false);
+});
 test('music accepts HTTPS URLs or audio files from /music/', () => {
   const music = settingsSchema.shape.music_url;
   for (const value of [

@@ -11,11 +11,20 @@ export interface Wedding {
   rsvp_deadline: string;
   status: 'DRAFT' | 'PUBLISHED';
 }
+export interface DressColor {
+  name: string;
+  hex: string;
+}
 export interface Settings {
   wedding_id: string;
   envelope_message: string;
   story: string;
   dress_code: string;
+  dress_code_eyebrow: string;
+  dress_code_title: string;
+  dress_code_note: string;
+  show_dress_code_colors: boolean;
+  dress_code_colors: DressColor[];
   final_message: string;
   show_story: boolean;
   show_countdown: boolean;

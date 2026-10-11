@@ -398,11 +398,16 @@ export type Database = {
         Row: {
           created_at: string;
           dress_code: string;
+          dress_code_colors: { name: string; hex: string }[];
+          dress_code_eyebrow: string;
+          dress_code_note: string;
+          dress_code_title: string;
           envelope_message: string;
           final_message: string;
           music_url: string;
           show_countdown: boolean;
           show_dress_code: boolean;
+          show_dress_code_colors: boolean;
           show_gallery: boolean;
           show_maps: boolean;
           show_music: boolean;
@@ -415,11 +420,16 @@ export type Database = {
         Insert: {
           created_at?: string;
           dress_code?: string;
+          dress_code_colors?: { name: string; hex: string }[];
+          dress_code_eyebrow?: string;
+          dress_code_note?: string;
+          dress_code_title?: string;
           envelope_message?: string;
           final_message?: string;
           music_url?: string;
           show_countdown?: boolean;
           show_dress_code?: boolean;
+          show_dress_code_colors?: boolean;
           show_gallery?: boolean;
           show_maps?: boolean;
           show_music?: boolean;
@@ -432,11 +442,16 @@ export type Database = {
         Update: {
           created_at?: string;
           dress_code?: string;
+          dress_code_colors?: { name: string; hex: string }[];
+          dress_code_eyebrow?: string;
+          dress_code_note?: string;
+          dress_code_title?: string;
           envelope_message?: string;
           final_message?: string;
           music_url?: string;
           show_countdown?: boolean;
           show_dress_code?: boolean;
+          show_dress_code_colors?: boolean;
           show_gallery?: boolean;
           show_maps?: boolean;
           show_music?: boolean;

@@ -8,19 +8,6 @@ import { EventMap } from '@/components/maps/event-map';
 import { Rsvp } from './rsvp';
 import { coupleShortName } from '@/lib/names';
 
-const dressPalette = [
-  ['Rosa antiguo', '#af8278'],
-  ['Arena', '#b9ad91'],
-  ['Verde oliva', '#7f846b'],
-  ['Malva', '#a39490'],
-  ['Azul celeste', '#bcd9ee'],
-  ['Verde menta', '#c5e4d3'],
-  ['Amarillo claro', '#f5e6a6'],
-  ['Rosa palo', '#f1cfd4'],
-  ['Lavanda', '#d9cdea'],
-  ['Durazno', '#f5d3b9'],
-] as const;
-
 export function WeddingPage({
   data,
   token,
@@ -238,17 +225,26 @@ export function WeddingPage({
         )}
         {s.show_dress_code && (
           <section className="dress-section">
-            <span className="eyebrow">PARA CELEBRAR JUNTOS</span>
-            <h2>Código de vestimenta</h2>
-            <p className="preserve-lines">{s.dress_code}</p>
-            <ul className="palette" aria-label="Colores sugeridos">
-              {dressPalette.map(([label, color]) => (
-                <li key={label}>
-                  <i style={{ background: color }} aria-hidden="true" />
-                  <span>{label}</span>
-                </li>
-              ))}
-            </ul>
+            {s.dress_code_eyebrow && (
+              <span className="eyebrow">{s.dress_code_eyebrow}</span>
+            )}
+            {s.dress_code_title && <h2>{s.dress_code_title}</h2>}
+            {s.dress_code && (
+              <p className="preserve-lines dress-code">{s.dress_code}</p>
+            )}
+            {s.show_dress_code_colors && s.dress_code_colors.length > 0 && (
+              <ul className="palette" aria-label="Colores sugeridos">
+                {s.dress_code_colors.map(({ name, hex }) => (
+                  <li key={`${name}-${hex}`}>
+                    <i style={{ background: hex }} aria-hidden="true" />
+                    <span>{name}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {s.dress_code_note && (
+              <p className="preserve-lines dress-note">{s.dress_code_note}</p>
+            )}
           </section>
         )}
         {s.show_rsvp &&

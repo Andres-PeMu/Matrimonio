@@ -82,6 +82,22 @@ export const settingsSchema = z.object({
   envelope_message: text,
   story: text,
   dress_code: text,
+  dress_code_eyebrow: z.string().trim().max(150),
+  dress_code_title: z.string().trim().max(150),
+  dress_code_note: text,
+  show_dress_code_colors: z.boolean(),
+  dress_code_colors: z
+    .array(
+      z.object({
+        name: z
+          .string()
+          .trim()
+          .min(1, 'Cada color necesita un nombre.')
+          .max(40),
+        hex: z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Color inválido.'),
+      }),
+    )
+    .max(24, 'Máximo 24 colores.'),
   final_message: text,
   show_story: z.boolean(),
   show_countdown: z.boolean(),
