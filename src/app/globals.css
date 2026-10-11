@@ -1834,6 +1834,26 @@ td small {
     min-height: 760px;
     background-size: auto 100%;
   }
+  .hero:not(.with-cover)::before,
+  .hero:not(.with-cover)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 112vw;
+    z-index: -1;
+    pointer-events: none;
+    background: url('/floral-paper.webp') center top / 168% auto no-repeat;
+  }
+  .hero:not(.with-cover)::before {
+    top: 0;
+    mask-image: linear-gradient(to bottom, #000 45%, transparent);
+  }
+  .hero:not(.with-cover)::after {
+    bottom: 0;
+    background-position: center bottom;
+    mask-image: linear-gradient(to top, #000 45%, transparent);
+  }
   .story-section {
     grid-template-columns: 1fr;
     gap: 45px;
