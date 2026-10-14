@@ -45,6 +45,7 @@ export interface Guest {
   invitation_token: string;
   status: Status;
   notes: string | null;
+  highlighted: boolean;
 }
 export interface Confirmation {
   id: string;

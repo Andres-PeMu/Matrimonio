@@ -3,7 +3,11 @@ import { HeartOrnament } from '@/components/ui/heart-ornament';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { RecordForm } from './record-form';
-import { deleteRecord, regenerateToken } from '@/actions/manage';
+import {
+  deleteRecord,
+  regenerateToken,
+  setGuestHighlight,
+} from '@/actions/manage';
 import type {
   Guest,
   Location,
@@ -33,6 +37,17 @@ export function RecordList({
   const [editing, setEditing] = useState<Row | null | undefined>(undefined);
   const [feedback, setFeedback] = useState('');
   const [pending, setPending] = useState(false);
+  const [highlights, setHighlights] = useState<Record<string, boolean>>({});
+  async function toggleHighlight(id: string, value: boolean) {
+    setHighlights((h) => ({ ...h, [id]: value }));
+    try {
+      const result = await setGuestHighlight(id, value);
+      if (!result.ok) throw new Error(result.message);
+    } catch {
+      setHighlights((h) => ({ ...h, [id]: !value }));
+      setFeedback('No se pudo guardar la marca. Inténtalo de nuevo.');
+    }
+  }
   async function copy(token: string) {
     const url = new URL(`/i/${token}`, window.location.origin).href;
     try {
@@ -80,6 +95,7 @@ export function RecordList({
               <th>Nombre</th>
               {section === 'guests' ? (
                 <>
+                  <th>Marcar</th>
                   <th>Cupos</th>
                   <th>Asistentes</th>
                   <th>Estado</th>
@@ -105,14 +121,34 @@ export function RecordList({
                 !!rsvpDeadline &&
                 new Date(c.confirmed_at).getTime() >
                   new Date(rsvpDeadline).getTime();
+              const highlighted =
+                'highlighted' in r && (highlights[r.id] ?? r.highlighted);
               return (
-                <tr key={r.id} className={late ? 'late' : undefined}>
+                <tr
+                  key={r.id}
+                  className={
+                    [late && 'late', highlighted && 'highlighted']
+                      .filter(Boolean)
+                      .join(' ') || undefined
+                  }
+                >
                   <td data-label="Nombre">
                     <strong>{r.name}</strong>
                     {'email' in r && r.email && <small>{r.email}</small>}
                   </td>
                   {'guest_limit' in r ? (
                     <>
+                      <td data-label="Marcar">
+                        <input
+                          type="checkbox"
+                          className="row-highlight"
+                          checked={highlighted}
+                          onChange={(e) =>
+                            toggleHighlight(r.id, e.target.checked)
+                          }
+                          aria-label={`Marcar a ${r.name}`}
+                        />
+                      </td>
                       <td data-label="Cupos">{r.guest_limit}</td>
                       <td data-label="Asistentes">{c?.attendees_count ?? 0}</td>
                       <td data-label="Estado">

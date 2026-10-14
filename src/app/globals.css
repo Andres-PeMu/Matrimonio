@@ -1391,6 +1391,16 @@ tr.late td {
 tr.late small {
   color: #5f4e8a;
 }
+tr.highlighted,
+tr.highlighted td {
+  background: #e3f1e3;
+}
+input[type='checkbox'].row-highlight {
+  width: 18px;
+  height: 18px;
+  accent-color: #4f8a57;
+  cursor: pointer;
+}
 .readonly-field {
   background: #f3eee6;
   color: #6c6258;

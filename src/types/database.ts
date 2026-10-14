@@ -135,6 +135,7 @@ export type Database = {
           created_at: string;
           email: string | null;
           guest_limit: number;
+          highlighted: boolean;
           id: string;
           invitation_token: string;
           name: string;
@@ -148,6 +149,7 @@ export type Database = {
           created_at?: string;
           email?: string | null;
           guest_limit: number;
+          highlighted?: boolean;
           id?: string;
           invitation_token?: string;
           name: string;
@@ -161,6 +163,7 @@ export type Database = {
           created_at?: string;
           email?: string | null;
           guest_limit?: number;
+          highlighted?: boolean;
           id?: string;
           invitation_token?: string;
           name?: string;

@@ -130,6 +130,24 @@ export async function deleteRecord(
   revalidatePath('/');
   return { ok: true, message: 'Registro eliminado.' };
 }
+export async function setGuestHighlight(
+  id: string,
+  highlighted: boolean,
+): Promise<ActionResult> {
+  const { db, wedding } = await requireWedding();
+  if (!z.uuid().safeParse(id).success || typeof highlighted !== 'boolean')
+    return { ok: false, message: 'Registro inválido.' };
+  const { error } = await db
+    .from('guests')
+    .update({ highlighted })
+    .eq('id', id)
+    .eq('wedding_id', wedding.id)
+    .select('id')
+    .single();
+  if (error) return { ok: false, message: 'No se pudo guardar la marca.' };
+  revalidatePath('/admin', 'layout');
+  return { ok: true, message: '' };
+}
 export async function regenerateToken(id: string): Promise<ActionResult> {
   const { db, wedding } = await requireWedding();
   const token = generateInvitationToken();
