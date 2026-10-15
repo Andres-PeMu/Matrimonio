@@ -747,6 +747,35 @@ small {
   font-size: 11px;
   letter-spacing: 0.06em;
 }
+.floating-rsvp {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: linear-gradient(115deg, #ca9587, #a26062);
+  text-decoration: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+.floating-rsvp.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
 .admin-link {
   display: block;
   font-family: var(--sans);
@@ -1046,11 +1075,20 @@ small {
   color: var(--rose);
 }
 .discover-button {
-  animation: appear 1.6s ease;
+  position: relative;
+  animation:
+    appear 1.6s ease,
+    cta-pulse 2.2s ease-in-out 1.6s infinite;
   border-radius: 25px;
   font-size: 11px;
   letter-spacing: 0.08em;
   gap: 12px;
+  box-shadow: 0 0 0 0 #a2606240;
+}
+
+.cta-pulse {
+  animation: cta-pulse 2.2s ease-in-out infinite;
+  box-shadow: 0 0 0 0 #a2606240;
 }
 
 .pulse {
@@ -1068,6 +1106,17 @@ small {
 @keyframes pulse {
   50% {
     opacity: 0.3;
+  }
+}
+@keyframes cta-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 #a2606240;
+  }
+  50% {
+    transform: scale(1.045);
+    box-shadow: 0 0 0 14px #a2606200;
   }
 }
 /* Administration */

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { PublicWedding, Invitation } from '@/types/domain';
 import { Countdown } from './countdown';
 import { EventMap } from '@/components/maps/event-map';
+import { FloatingRsvp } from './floating-rsvp';
 import { Rsvp } from './rsvp';
 import { coupleShortName } from '@/lib/names';
 
@@ -92,7 +93,7 @@ export function WeddingPage({
               </div>
             </div>
             {token && s.show_rsvp ? (
-              <a href="#rsvp" className="button">
+              <a href="#rsvp" className="button cta-pulse">
                 <Heart size={17} strokeWidth={1.6} aria-hidden="true" />{' '}
                 CONFIRMAR ASISTENCIA
               </a>
@@ -277,6 +278,10 @@ export function WeddingPage({
           </Link>
         </footer>
       </main>
+      {token &&
+        s.show_rsvp &&
+        'guest' in data &&
+        data.guest.status === 'PENDING' && <FloatingRsvp />}
     </div>
   );
 }
