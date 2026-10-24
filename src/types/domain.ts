@@ -31,6 +31,10 @@ export interface Settings {
   show_gallery: boolean;
   show_maps: boolean;
   show_dress_code: boolean;
+  show_envelope_rain: boolean;
+  envelope_rain_eyebrow: string;
+  envelope_rain_title: string;
+  envelope_rain_note: string;
   show_rsvp: boolean;
   show_music: boolean;
   music_url: string;

@@ -104,6 +104,10 @@ export const settingsSchema = z.object({
   show_gallery: z.boolean(),
   show_maps: z.boolean(),
   show_dress_code: z.boolean(),
+  show_envelope_rain: z.boolean(),
+  envelope_rain_eyebrow: z.string().trim().max(150),
+  envelope_rain_title: z.string().trim().max(150),
+  envelope_rain_note: text,
   show_rsvp: z.boolean(),
   show_music: z.boolean(),
   music_url: z.union([

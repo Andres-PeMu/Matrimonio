@@ -248,6 +248,25 @@ export function WeddingPage({
             )}
           </section>
         )}
+        {s.show_envelope_rain &&
+          (s.envelope_rain_eyebrow ||
+            s.envelope_rain_title ||
+            s.envelope_rain_note) && (
+            <section className="gifts-section" id="regalos">
+              {s.envelope_rain_eyebrow && (
+                <span className="eyebrow">{s.envelope_rain_eyebrow}</span>
+              )}
+              <div className="gifts-mark" aria-hidden="true">
+                <span className="gifts-envelope gifts-envelope-left" />
+                <span className="gifts-envelope gifts-envelope-center" />
+                <span className="gifts-envelope gifts-envelope-right" />
+              </div>
+              {s.envelope_rain_title && <h2>{s.envelope_rain_title}</h2>}
+              {s.envelope_rain_note && (
+                <p className="preserve-lines">{s.envelope_rain_note}</p>
+              )}
+            </section>
+          )}
         {s.show_rsvp &&
           (token && 'guest' in data ? (
             <Rsvp data={data} token={token} />

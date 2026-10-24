@@ -52,6 +52,10 @@ export function SettingsForm({
             show_dress_code: f.has('show_dress_code'),
             show_dress_code_colors: f.has('show_dress_code_colors'),
             dress_code_colors: JSON.parse(val('dress_code_colors') || '[]'),
+            show_envelope_rain: f.has('show_envelope_rain'),
+            envelope_rain_eyebrow: val('envelope_rain_eyebrow'),
+            envelope_rain_title: val('envelope_rain_title'),
+            envelope_rain_note: val('envelope_rain_note'),
             final_message: val('final_message'),
             music_url: val('music_url'),
             ...Object.fromEntries(toggles.map(([key]) => [key, f.has(key)])),
@@ -216,6 +220,50 @@ export function SettingsForm({
           name="dress_code_colors"
           initial={s.dress_code_colors}
         />
+      </section>
+      <section className="panel">
+        <h2>Lluvia de sobres</h2>
+        <label className="checkbox">
+          <input
+            name="show_envelope_rain"
+            type="checkbox"
+            defaultChecked={s.show_envelope_rain}
+          />
+          Mostrar esta sección en la invitación
+        </label>
+        <div className="form-grid">
+          <label>
+            Subtítulo
+            <input
+              name="envelope_rain_eyebrow"
+              defaultValue={s.envelope_rain_eyebrow}
+              maxLength={150}
+              placeholder="EL MEJOR REGALO"
+            />
+          </label>
+          <label>
+            Título
+            <input
+              name="envelope_rain_title"
+              defaultValue={s.envelope_rain_title}
+              maxLength={150}
+              placeholder="Lluvia de sobres"
+            />
+          </label>
+        </div>
+        <label>
+          Mensaje
+          <textarea
+            name="envelope_rain_note"
+            defaultValue={s.envelope_rain_note}
+            maxLength={2000}
+            rows={3}
+            placeholder="Tu presencia es nuestro mayor tesoro."
+          />
+        </label>
+        <p className="small muted">
+          Los campos vacíos no se muestran en la invitación.
+        </p>
       </section>
       <section className="panel">
         <h2>Secciones de la invitación</h2>
