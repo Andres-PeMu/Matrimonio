@@ -1,6 +1,11 @@
+import { cookies } from 'next/headers';
 import { HeartOrnament } from '@/components/ui/heart-ornament';
 import Link from 'next/link';
 import { login } from '@/actions/auth';
+import {
+  invitationStyle,
+  invitationStyleCookie,
+} from '@/lib/invitation-styles';
 import { configured } from '@/lib/supabase/server';
 export default async function Login({
   searchParams,
@@ -9,13 +14,16 @@ export default async function Login({
 }) {
   const { error } = await searchParams;
   const ready = configured();
+  const style = invitationStyle(
+    (await cookies()).get(invitationStyleCookie)?.value,
+  );
   const errors: Record<string, string> = {
     credentials: 'El email o la contraseña no son correctos.',
     access: 'Tu cuenta no tiene permisos de administración.',
     setup: 'Primero configura la conexión a Supabase.',
   };
   return (
-    <main id="main" className="login-page">
+    <main id="main" className="login-page" data-style={style}>
       <div className="login-story">
         <span className="eyebrow">CADA DETALLE CUENTA</span>
         <h1>
