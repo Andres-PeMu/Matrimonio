@@ -1,9 +1,18 @@
 import type { Database } from '@/types/database';
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+
+function nextWithPathname(request: NextRequest) {
+  const headers = new Headers(request.headers);
+  headers.set('x-pathname', request.nextUrl.pathname);
+  return NextResponse.next({ request: { headers } });
+}
+
 export async function proxy(request: NextRequest) {
-  let response = NextResponse.next({ request });
+  let response = nextWithPathname(request);
+  const isAdmin = request.nextUrl.pathname.startsWith('/admin');
   if (
+    !isAdmin ||
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
     !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   )
@@ -16,7 +25,7 @@ export async function proxy(request: NextRequest) {
         getAll: () => request.cookies.getAll(),
         setAll: (values) => {
           values.forEach(({ name, value }) => request.cookies.set(name, value));
-          response = NextResponse.next({ request });
+          response = nextWithPathname(request);
           values.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options),
           );
@@ -37,4 +46,7 @@ export async function proxy(request: NextRequest) {
   response.headers.set('Cache-Control', 'private, no-store');
   return response;
 }
-export const config = { matcher: ['/admin/:path*'] };
+
+export const config = {
+  matcher: ['/admin/:path*', '/i/:path*', '/'],
+};

@@ -9,10 +9,100 @@
   --gold: #876432;
   --line: #e7dfd3;
   --sage: #727c65;
+  --cta-from: #ca9587;
+  --cta-to: #a26062;
+  --cta-glow: #a2606240;
+  --admin-bg: #f7f6f2;
+  --admin-surface: #fffdfa;
+  --admin-bar: #fffdf9;
+  --admin-sticky: #f7f6f2ed;
+  --admin-nav: #777069;
+  --admin-nav-active-bg: #efe5df;
+  --admin-nav-active: #874f4d;
+  --admin-nav-hover: #f4eee6;
+  --admin-label: #a69b8e;
+  --admin-mark: #956d40;
+  --admin-mark-border: #c1a477;
+  --admin-avatar: #e9dfd1;
+  --admin-readonly: #f3eee6;
   --script:
     'Snell Roundhand', 'Baskerville', 'Palatino Linotype', Georgia, serif;
   --serif: 'Baskerville', 'Palatino Linotype', Georgia, serif;
   --sans: Arial, Helvetica, sans-serif;
+}
+/* Ajustes de Azul cielo amor: solo aquí, para no tocar Pastel amor. */
+[data-style='maria-oscar'] {
+  --ink: #12233f;
+  --muted: #5d6b82;
+  --cream: #ffffff;
+  --paper: #ffffff;
+  --rose: #16356b;
+  --rose-dark: #0d1f4d;
+  --gold: #c6a35a;
+  --line: #e4d7b3;
+  --sage: #8aa0c4;
+  --cta-from: #1a3d7a;
+  --cta-to: #0d1f4d;
+  --cta-glow: #16356b40;
+  --admin-bg: #eef2f8;
+  --admin-surface: #ffffff;
+  --admin-bar: #ffffff;
+  --admin-sticky: #eef2f8ed;
+  --admin-nav: #5d6b82;
+  --admin-nav-active-bg: #dce6f4;
+  --admin-nav-active: #16356b;
+  --admin-nav-hover: #e8eef6;
+  --admin-label: #8aa0c4;
+  --admin-mark: #c6a35a;
+  --admin-mark-border: #c6a35a;
+  --admin-avatar: #dce6f4;
+  --admin-readonly: #eef2f8;
+}
+[data-style='maria-oscar'].envelope-page,
+html[data-style='maria-oscar'] .envelope-page {
+  background: #f4f7fb;
+}
+[data-style='maria-oscar'].envelope-page .envelope-prompt > span:first-child,
+[data-style='maria-oscar'].envelope-page .envelope-prompt-hint {
+  color: #16356b;
+}
+[data-style='maria-oscar'].wedding-page .public-header {
+  background: #fffffff5;
+  border-bottom-color: #e4d7b3;
+}
+[data-style='maria-oscar'].wedding-page .monogram,
+[data-style='maria-oscar'].wedding-page .hero h1,
+[data-style='maria-oscar'].wedding-page .signature {
+  color: #16356b;
+}
+[data-style='maria-oscar'].wedding-page .hero,
+[data-style='maria-oscar'].wedding-page .countdown-section,
+[data-style='maria-oscar'].wedding-page .rsvp-section {
+  background: #f4f7fb;
+}
+[data-style='maria-oscar'].wedding-page .details-section {
+  background: #eef2f8;
+}
+[data-style='maria-oscar'].wedding-page .dress-section,
+[data-style='maria-oscar'].wedding-page .gifts-section {
+  background: #f7f9fc;
+}
+[data-style='maria-oscar'].wedding-page .wedding-footer {
+  background: #0d1f4d;
+  color: #f7f9fc;
+}
+[data-style='maria-oscar'].wedding-page .wedding-footer .eyebrow {
+  color: #c6a35a;
+}
+[data-style='maria-oscar'] .soundtrack-toggle,
+[data-style='maria-oscar'] .admin-link {
+  color: #5d6b82;
+}
+.wedding-page,
+.envelope-page {
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
 }
 * {
   box-sizing: border-box;
@@ -20,6 +110,9 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 85px;
+}
+html[data-style='maria-oscar'] body {
+  background: #f4f7fb;
 }
 body {
   margin: 0;
@@ -102,7 +195,7 @@ textarea {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: #fffdfa;
+  background: var(--paper);
   padding: 11px 13px;
   color: var(--ink);
   margin-top: 7px;
@@ -253,6 +346,15 @@ small {
   padding: 80px 25px;
   background: #f8f0e4 url('/floral-paper.webp') center/cover;
 }
+.setup-page.invitation-loading {
+  background: #f4f7fb;
+}
+html[data-style='classic'] .setup-page.invitation-loading {
+  background: var(--cream);
+}
+html[data-style='maria-oscar'] .setup-page {
+  background: #f4f7fb;
+}
 .setup-page h1 {
   max-width: 800px;
   line-height: 1.35;
@@ -268,6 +370,46 @@ small {
   margin-top: 28px;
   max-width: 400px;
   color: var(--muted);
+}
+.invitation-loading-card {
+  display: grid;
+  justify-items: center;
+}
+.invitation-loading-card p {
+  margin: 0;
+}
+[data-style='maria-oscar'] .invitation-loading {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    url('/themes/azul-cielo-amor/blue-watercolor-flowers.png') center
+      top -28px / min(900px, 118vw) auto no-repeat,
+    url('/themes/azul-cielo-amor/blue-watercolor-flowers.png') center
+      bottom -45px / min(760px, 110vw) auto no-repeat,
+    linear-gradient(180deg, #fff, #edf4fb);
+}
+[data-style='maria-oscar'] .invitation-loading-card {
+  min-width: min(360px, calc(100vw - 40px));
+  padding: 42px 36px 38px;
+  color: #fff;
+  background:
+    linear-gradient(145deg, #244f865e, #061733e8),
+    url('/themes/azul-cielo-amor/navy-linen.png') center / cover;
+  border: 1px solid #d3ae4e;
+  border-radius: 10px;
+  box-shadow:
+    0 18px 50px #071a3440,
+    inset 0 0 0 7px #102f6270;
+}
+[data-style='maria-oscar'] .invitation-loading-card .heart-ornament {
+  color: #f1d27c;
+}
+[data-style='maria-oscar'] .invitation-loading-card p {
+  font-family: var(--serif);
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 8px #020817;
 }
 /* Public invitation */
 .wedding-page {
@@ -381,7 +523,7 @@ small {
 .hero .button {
   border-radius: 30px;
   min-width: 260px;
-  background: linear-gradient(115deg, #ca9587, #a26062);
+  background: linear-gradient(115deg, var(--cta-from), var(--cta-to));
   font-family: var(--serif);
   font-size: 13px;
   letter-spacing: 0.08em;
@@ -695,12 +837,12 @@ small {
 .gifts-envelope-center {
   width: 52px;
   height: 34px;
-  border-color: #a86165;
+  border-color: var(--rose);
 }
 .gifts-envelope-center::before {
   height: 19px;
-  background: #f6ddd8;
-  border-color: #a86165;
+  background: color-mix(in srgb, var(--rose) 22%, var(--paper));
+  border-color: var(--rose);
 }
 .rsvp-section {
   padding: 90px 24px;
@@ -822,7 +964,7 @@ small {
   font-weight: 500;
   letter-spacing: 0.06em;
   color: #fff;
-  background: linear-gradient(115deg, #ca9587, #a26062);
+  background: linear-gradient(115deg, var(--cta-from), var(--cta-to));
   text-decoration: none;
   opacity: 0;
   visibility: hidden;
@@ -1143,12 +1285,12 @@ small {
   font-size: 11px;
   letter-spacing: 0.08em;
   gap: 12px;
-  box-shadow: 0 0 0 0 #a2606240;
+  box-shadow: 0 0 0 0 var(--cta-glow);
 }
 
 .cta-pulse {
   animation: cta-pulse 2.2s ease-in-out infinite;
-  box-shadow: 0 0 0 0 #a2606240;
+  box-shadow: 0 0 0 0 var(--cta-glow);
 }
 
 .pulse {
@@ -1172,23 +1314,23 @@ small {
   0%,
   100% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 #a2606240;
+    box-shadow: 0 0 0 0 var(--cta-glow);
   }
   50% {
     transform: scale(1.045);
-    box-shadow: 0 0 0 14px #a2606200;
+    box-shadow: 0 0 0 14px #00000000;
   }
 }
 /* Administration */
 .admin-layout {
   display: flex;
   min-height: 100vh;
-  background: #f7f6f2;
+  background: var(--admin-bg);
 }
 .admin-sidebar {
   width: 245px;
   flex-shrink: 0;
-  background: #fffdfa;
+  background: var(--admin-surface);
   border-right: 1px solid var(--line);
   padding: 32px 20px;
   display: flex;
@@ -1212,11 +1354,11 @@ small {
   min-width: 51px;
   height: 58px;
   padding: 0 12px;
-  border: 1px solid #c1a477;
+  border: 1px solid var(--admin-mark-border);
   border-radius: 30px 30px 5px 5px;
   font-size: 15px;
   font-style: italic;
-  color: #956d40;
+  color: var(--admin-mark);
   white-space: nowrap;
 }
 .admin-brand small {
@@ -1230,7 +1372,7 @@ small {
 .sidebar-label {
   font-size: 9px;
   letter-spacing: 0.16em;
-  color: #a69b8e;
+  color: var(--admin-label);
   padding-left: 16px;
   margin-bottom: 15px;
 }
@@ -1241,7 +1383,7 @@ small {
 }
 .admin-nav a {
   padding: 11px 14px;
-  color: #777069;
+  color: var(--admin-nav);
   font-size: 12px;
   border-radius: 6px;
   display: flex;
@@ -1254,11 +1396,11 @@ small {
   text-align: center;
 }
 .admin-nav a[aria-current='page'] {
-  background: #efe5df;
-  color: #874f4d;
+  background: var(--admin-nav-active-bg);
+  color: var(--admin-nav-active);
 }
 .admin-nav a:hover {
-  background: #f4eee6;
+  background: var(--admin-nav-hover);
 }
 .sidebar-bottom {
   margin-top: auto;
@@ -1290,7 +1432,7 @@ small {
   justify-content: space-between;
   gap: 20px;
   border-bottom: 1px solid var(--line);
-  background: #fffdf9;
+  background: var(--admin-bar);
   font-size: 11px;
   color: var(--muted);
 }
@@ -1307,12 +1449,12 @@ small {
 .admin-avatar {
   width: 32px;
   height: 32px;
-  background: #e9dfd1;
+  background: var(--admin-avatar);
   border-radius: 50%;
   display: grid;
   place-items: center;
   font-family: var(--serif);
-  color: #8b6946;
+  color: var(--admin-mark);
 }
 .admin-content {
   padding: 42px;
@@ -1365,7 +1507,7 @@ small {
   margin-bottom: 28px;
 }
 .stat-card {
-  background: #fffdfa;
+  background: var(--admin-surface);
   border: 1px solid var(--line);
   padding: 24px 20px;
   border-radius: 9px;
@@ -1404,7 +1546,7 @@ small {
   margin: 6px 0 0;
 }
 .panel {
-  background: #fffdfa;
+  background: var(--admin-surface);
   padding: 28px;
   border: 1px solid var(--line);
   border-radius: 9px;
@@ -1413,6 +1555,61 @@ small {
 .panel h2 {
   font-size: 23px;
   margin-bottom: 20px;
+}
+.style-picker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.style-option {
+  display: block;
+  cursor: pointer;
+}
+.style-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.style-option-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 100%;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+}
+.style-option input:checked + .style-option-body {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 1px var(--rose);
+}
+.style-option input:focus-visible + .style-option-body {
+  outline: 2px solid var(--rose);
+  outline-offset: 3px;
+}
+.style-swatches {
+  display: flex;
+  gap: 8px;
+}
+.style-swatches i {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid #00000014;
+}
+.style-option-body strong {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 400;
+}
+.style-option-body > span:last-child {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
 }
 .editor-title {
   display: flex;
@@ -1511,15 +1708,15 @@ input[type='checkbox'].row-highlight {
   cursor: pointer;
 }
 .readonly-field {
-  background: #f3eee6;
-  color: #6c6258;
+  background: var(--admin-readonly);
+  color: var(--muted);
   cursor: not-allowed;
 }
 .filter-bar {
   display: flex;
   gap: 12px;
   padding: 18px;
-  background: #fffdfa;
+  background: var(--admin-surface);
   border: 1px solid var(--line);
   border-radius: 8px;
   margin-bottom: 20px;
@@ -1552,7 +1749,7 @@ input[type='checkbox'].row-highlight {
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: auto;
-  background: #fffdfa;
+  background: var(--admin-surface);
 }
 table {
   width: 100%;
@@ -1704,7 +1901,7 @@ td small {
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  background: #f7f6f2ed;
+  background: var(--admin-sticky);
   position: sticky;
   bottom: 0;
   padding: 20px 0;
@@ -2191,7 +2388,8 @@ td small {
   .form-grid {
     grid-template-columns: 1fr;
   }
-  .toggle-grid {
+  .toggle-grid,
+  .style-picker {
     grid-template-columns: 1fr;
   }
   .table-panel {
@@ -2376,4 +2574,469 @@ td small {
   display: inline-block;
   vertical-align: middle;
   margin-right: 6px;
+}
+
+/* Azul cielo amor ---------------------------------------------------------
+   Esta variante vive enteramente bajo data-style para que volver a
+   Pastel amor restaure sus materiales, composición y apertura originales. */
+[data-style='maria-oscar'].envelope-page {
+  position: relative;
+  isolation: isolate;
+  justify-content: center;
+  background:
+    linear-gradient(#fffffff0, #f7fafff5),
+    radial-gradient(circle at 50% 42%, #dceafa 0, #fff 58%);
+  overflow: hidden;
+}
+[data-style='maria-oscar'].envelope-page::before,
+[data-style='maria-oscar'].envelope-page::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: min(850px, 92vw);
+  aspect-ratio: 8 / 3;
+  background: url('/themes/azul-cielo-amor/blue-watercolor-flowers.png')
+    center / contain no-repeat;
+  pointer-events: none;
+  opacity: 0.96;
+}
+[data-style='maria-oscar'].envelope-page::before {
+  top: -4vw;
+  left: -19vw;
+  transform: rotate(-7deg);
+}
+[data-style='maria-oscar'].envelope-page::after {
+  right: -20vw;
+  bottom: -5vw;
+  transform: rotate(174deg);
+}
+[data-style='maria-oscar'] .envelope-intro .eyebrow {
+  display: inline-block;
+  color: #fff;
+  background: #102f62;
+  border: 1px solid #d3ae4e;
+  border-radius: 999px;
+  padding: 8px 15px 8px 18px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-shadow: none;
+  box-shadow: 0 5px 16px #102f6238;
+}
+[data-style='maria-oscar'] .envelope-stage {
+  --blue-linen: url('/themes/azul-cielo-amor/navy-linen.png');
+  width: min(560px, 88vw);
+  aspect-ratio: 1.52;
+  margin: 58px 0 30px;
+  perspective: 1800px;
+  transition: margin 0.8s ease;
+}
+[data-style='maria-oscar'] .envelope-back {
+  background:
+    linear-gradient(145deg, #31578c40, #06162e55),
+    var(--blue-linen) center / cover;
+  border: 1px solid #061832;
+  border-radius: 6px;
+  box-shadow:
+    0 18px 45px #081a3940,
+    0 4px 10px #07152b38;
+}
+[data-style='maria-oscar'] .envelope-side {
+  opacity: 0;
+}
+[data-style='maria-oscar'] .envelope-front {
+  z-index: 3;
+  filter: drop-shadow(0 -1px 2px #020b1b66);
+}
+[data-style='maria-oscar'] .envelope-front::before {
+  clip-path: polygon(0 100%, 0 97%, 50% 47%, 100% 97%, 100% 100%);
+  background:
+    linear-gradient(170deg, #284c7e44, #071a38aa),
+    var(--blue-linen) center / cover;
+  box-shadow: inset 0 -1px 0 #7892b566;
+}
+[data-style='maria-oscar'] .envelope-flap {
+  z-index: 6;
+  transform-origin: left center;
+  filter: drop-shadow(6px 3px 6px #02091666);
+  transition:
+    transform 1.05s cubic-bezier(0.62, 0.05, 0.22, 1),
+    z-index 0s 0.53s;
+  backface-visibility: hidden;
+}
+[data-style='maria-oscar'] .envelope-flap::before {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 53%, 0 100%);
+  background:
+    linear-gradient(115deg, #315b9140, transparent 46%, #03112788),
+    var(--blue-linen) center / cover;
+  border: 1px solid #071832;
+  box-shadow: inset 0 1px 0 #7692b144;
+}
+[data-style='maria-oscar'] .envelope-flap::after {
+  content: none;
+}
+[data-style='maria-oscar'] .wax-seal {
+  top: 54%;
+  left: 50%;
+  width: 124px;
+  height: 124px;
+  filter: drop-shadow(3px 8px 6px #02091673);
+}
+[data-style='maria-oscar'] .invitation-card {
+  --invitation-accent: #f2d27c;
+  inset: 14px;
+  min-height: calc(100% - 28px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #f7fbff;
+  border: 2px solid #d3ae4e;
+  padding: 66px 38px 48px;
+  background: #102f62;
+  box-shadow:
+    inset 0 0 0 7px #102f62,
+    inset 0 0 0 8px #e0bd654d,
+    0 10px 30px #020b1c52;
+  transform: translateX(5%) scale(0.98);
+  transition:
+    transform 0.85s 0.38s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.28s 0.3s;
+}
+[data-style='maria-oscar'] .invitation-card::before {
+  background:
+    linear-gradient(145deg, #234e8666, #071b3dbb),
+    var(--blue-linen) center / cover;
+  filter: none;
+  opacity: 1;
+}
+[data-style='maria-oscar'] .invitation-card h2 {
+  color: #f4d580;
+  text-shadow: 0 2px 12px #02091688;
+}
+[data-style='maria-oscar'] .invitation-card p,
+[data-style='maria-oscar'] .invitation-card > span {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 1px 8px #06152f;
+}
+[data-style='maria-oscar'] .invitation-card .heart-ornament {
+  color: #e2be61;
+}
+[data-style='maria-oscar'] .invitation-card .heart-ornament-divider::before,
+[data-style='maria-oscar'] .invitation-card .heart-ornament-divider::after {
+  background: linear-gradient(90deg, transparent, #e3c46d);
+}
+[data-style='maria-oscar'] .is-open .envelope-flap {
+  transform: rotateY(-176deg);
+  z-index: 1;
+  filter: drop-shadow(-4px 3px 5px #02091655);
+}
+[data-style='maria-oscar'] .is-open .wax-seal {
+  transform: translate(-105%, -50%) rotate(-18deg) scale(0.86);
+}
+[data-style='maria-oscar'] .is-open .invitation-card {
+  transform: translateX(-7%) scale(1);
+}
+[data-style='maria-oscar'] .envelope-stage.is-open {
+  margin: 58px 0 30px;
+}
+[data-style='maria-oscar'] .envelope-bottom {
+  color: #102f62;
+  background: #ffffffd9;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-weight: 600;
+  text-shadow: 0 1px 0 #fff;
+  box-shadow: 0 3px 14px #173a6820;
+}
+[data-style='maria-oscar'] .discover-button {
+  background: linear-gradient(115deg, #234d86, #0a234c);
+  color: #fff;
+  border-color: #d3ae4e;
+}
+
+@keyframes azul-card-reveal {
+  0%,
+  62% {
+    opacity: 0;
+    transform: translateX(7%) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes azul-flap-finish {
+  0%,
+  82% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes azul-stage-open {
+  0%,
+  62% {
+    height: min(250px, 58.55vw);
+  }
+  100% {
+    height: 305px;
+  }
+}
+
+/* La misma revelación se usa en escritorio y móvil. La tapa completa
+   su giro antes de que la tarjeta pase al frente. */
+[data-style='maria-oscar'] .is-open .invitation-card {
+  z-index: 8;
+  animation: azul-card-reveal 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+[data-style='maria-oscar'] .is-open .envelope-flap {
+  z-index: 9;
+  visibility: visible;
+  animation: azul-flap-finish 1.2s ease both;
+}
+
+[data-style='maria-oscar'].wedding-page .hero {
+  min-height: 900px;
+  background:
+    url('/themes/azul-cielo-amor/blue-watercolor-flowers.png') center
+      top -35px / min(1000px, 100vw) auto no-repeat,
+    url('/themes/azul-cielo-amor/blue-watercolor-flowers.png') center
+      bottom -65px / min(900px, 96vw) auto no-repeat,
+    linear-gradient(180deg, #fff 0%, #f1f6fc 52%, #fff 100%);
+}
+[data-style='maria-oscar'].wedding-page .hero-content {
+  width: min(680px, 92vw);
+  padding: 105px 58px 90px;
+  background:
+    linear-gradient(145deg, #234d8466, #071b3ddd),
+    url('/themes/azul-cielo-amor/navy-linen.png') center / cover;
+  color: #f7fbff;
+  border: 2px solid #d9b653;
+  outline: 1px solid #f1d78680;
+  outline-offset: -12px;
+  box-shadow: 0 20px 60px #0a244142;
+}
+[data-style='maria-oscar'].wedding-page .hero h1 {
+  color: #dceafe;
+  text-shadow: 0 2px 14px #020c1e80;
+}
+[data-style='maria-oscar'].wedding-page .hero h1 em,
+[data-style='maria-oscar'].wedding-page .hero .eyebrow,
+[data-style='maria-oscar'].wedding-page .wedding-date strong {
+  color: #f1d27c;
+}
+[data-style='maria-oscar'].wedding-page .wedding-date > div > span,
+[data-style='maria-oscar'].wedding-page .wedding-date strong {
+  border-color: #d8bb6e;
+}
+[data-style='maria-oscar'].wedding-page .hero-footnote {
+  color: #d6e1f1;
+}
+[data-style='maria-oscar'].wedding-page .hero .heart-ornament {
+  color: #e1c36b;
+}
+[data-style='maria-oscar'].wedding-page .countdown-section {
+  position: relative;
+  background: #fff;
+  border-color: #d9e4f1;
+}
+[data-style='maria-oscar'].wedding-page .countdown strong,
+[data-style='maria-oscar'].wedding-page .event-time {
+  color: #214d84;
+}
+[data-style='maria-oscar'].wedding-page .story-mark {
+  background:
+    url('/themes/azul-cielo-amor/blue-watercolor-flowers.png') center bottom /
+      145% auto no-repeat,
+    linear-gradient(145deg, #254f866b, #071d43d9),
+    url('/themes/azul-cielo-amor/navy-linen.png') center / cover;
+  color: #f4d580;
+  outline-color: #d3ae4e;
+}
+[data-style='maria-oscar'].wedding-page .story-section p,
+[data-style='maria-oscar'].wedding-page .gifts-section p {
+  color: #52647e;
+}
+[data-style='maria-oscar'].wedding-page .details-section {
+  background:
+    linear-gradient(#f3f7fcf2, #e9f0f8f4),
+    url('/themes/azul-cielo-amor/blue-watercolor-flowers.png') center top /
+      900px auto repeat-y;
+}
+[data-style='maria-oscar'].wedding-page .event-card {
+  color: #f7fbff;
+  border-color: #d4b257;
+  outline-color: #eed68285;
+  background: #102f62;
+  box-shadow: 0 16px 34px #071a3430;
+}
+[data-style='maria-oscar'].wedding-page .event-card::before {
+  background:
+    url('/themes/azul-cielo-amor/blue-watercolor-flowers.png') center
+      top -38px / 120% auto no-repeat,
+    linear-gradient(145deg, #2a568c5c, #071b3dcf),
+    url('/themes/azul-cielo-amor/navy-linen.png') center / cover;
+  filter: none;
+  opacity: 1;
+}
+[data-style='maria-oscar'].wedding-page .event-card .text-link,
+[data-style='maria-oscar'].wedding-page .event-card .event-number {
+  color: #f1d27c;
+}
+[data-style='maria-oscar'].wedding-page .dress-section,
+[data-style='maria-oscar'].wedding-page .gifts-section {
+  background:
+    linear-gradient(#fffffff2, #f3f7fcf2),
+    url('/themes/azul-cielo-amor/blue-watercolor-flowers.png') center
+      bottom -70px / min(900px, 100vw) auto no-repeat;
+}
+[data-style='maria-oscar'].wedding-page .wedding-footer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    url('/themes/azul-cielo-amor/blue-watercolor-flowers.png') center
+      top -28px / min(850px, 100vw) auto no-repeat,
+    linear-gradient(145deg, #244f8661, #061733e8),
+    url('/themes/azul-cielo-amor/navy-linen.png') center / cover;
+  border-top: 2px solid #d3ae4e;
+}
+[data-style='maria-oscar'].wedding-page .wedding-footer::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 28px;
+  bottom: 28px;
+  left: 50%;
+  width: min(620px, calc(100% - 40px));
+  transform: translateX(-50%);
+  background: #061733e8;
+  border: 1px solid #d3ae4e99;
+  border-radius: 10px;
+  box-shadow:
+    0 18px 45px #020b1d66,
+    inset 0 0 0 7px #102f6270;
+  backdrop-filter: blur(4px);
+}
+[data-style='maria-oscar'].wedding-page .wedding-footer > * {
+  position: relative;
+  z-index: 1;
+}
+[data-style='maria-oscar'].wedding-page .wedding-footer > p {
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 0 2px 8px #020817;
+}
+[data-style='maria-oscar'].wedding-page .wedding-footer .signature {
+  color: #f1d27c;
+  text-shadow: 0 2px 12px #020817;
+}
+[data-style='maria-oscar'].wedding-page .wedding-footer .eyebrow,
+[data-style='maria-oscar'].wedding-page .wedding-footer .heart-ornament {
+  color: #f1d27c;
+  text-shadow: 0 2px 8px #020817;
+}
+[data-style='maria-oscar'].wedding-page .wedding-footer .admin-link {
+  color: #dce8f8;
+}
+
+@media (max-width: 600px) {
+  [data-style='maria-oscar'].envelope-page::before,
+  [data-style='maria-oscar'].envelope-page::after {
+    width: 130vw;
+  }
+  [data-style='maria-oscar'].wedding-page .wedding-footer::before {
+    top: 20px;
+    bottom: 20px;
+    width: calc(100% - 24px);
+  }
+  [data-style='maria-oscar'].envelope-page::before {
+    top: -2vw;
+    left: -62vw;
+  }
+  [data-style='maria-oscar'].envelope-page::after {
+    right: -66vw;
+    bottom: 0;
+  }
+  [data-style='maria-oscar'] .envelope-stage,
+  [data-style='maria-oscar'] .envelope-stage.is-open {
+    margin: 46px 0 28px;
+  }
+  [data-style='maria-oscar'] .envelope-stage.is-open {
+    height: 305px;
+    aspect-ratio: auto;
+    margin-bottom: 20px;
+    animation: azul-stage-open 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+  [data-style='maria-oscar'] .wax-seal {
+    width: 96px;
+    height: 96px;
+  }
+  [data-style='maria-oscar'] .invitation-card {
+    min-height: 300px;
+    padding: 46px 16px 35px;
+  }
+  [data-style='maria-oscar'] .is-open .invitation-card {
+    inset: 0;
+    z-index: 8;
+    transform: none;
+    animation: azul-card-reveal 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+  [data-style='maria-oscar'] .is-open .envelope-flap {
+    z-index: 9;
+    visibility: visible;
+    animation: azul-flap-finish 1.2s ease both;
+  }
+  [data-style='maria-oscar'] .invitation-card h2 {
+    margin: 8px 0;
+    font-size: 27px;
+  }
+  [data-style='maria-oscar'] .invitation-card p {
+    margin: 6px 0;
+    font-size: 12px;
+  }
+  [data-style='maria-oscar'] .discover-button {
+    width: min(260px, calc(100vw - 44px));
+    margin-top: 2px;
+    padding-inline: 16px;
+    font-size: 10px;
+    white-space: nowrap;
+    animation: appear 0.8s ease both;
+    box-shadow: 0 8px 22px #102f6230;
+  }
+  [data-style='maria-oscar'].wedding-page .hero {
+    min-height: 790px;
+    padding: 72px 14px;
+    background-size:
+      142vw auto,
+      135vw auto,
+      auto;
+  }
+  [data-style='maria-oscar'].wedding-page .hero-content {
+    padding: 86px 25px 72px;
+  }
+  [data-style='maria-oscar'].wedding-page .hero h1 {
+    font-size: clamp(39px, 12vw, 54px);
+  }
+  [data-style='maria-oscar'].wedding-page .event-card::before {
+    background-size:
+      135% auto,
+      auto,
+      cover;
+  }
+}
+
+/* La portada Pastel añade flores propias en móvil. Evita que esas capas
+   aparezcan encima del arte azul cuando se reduce el viewport. */
+@media (max-width: 800px) {
+  [data-style='maria-oscar'].wedding-page .hero:not(.with-cover)::before,
+  [data-style='maria-oscar'].wedding-page .hero:not(.with-cover)::after {
+    content: none;
+    background: none;
+  }
 }

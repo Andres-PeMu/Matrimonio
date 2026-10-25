@@ -26,18 +26,22 @@ export interface Settings {
   show_dress_code_colors: boolean;
   dress_code_colors: DressColor[];
   final_message: string;
+  show_hero: boolean;
   show_story: boolean;
   show_countdown: boolean;
   show_gallery: boolean;
   show_maps: boolean;
+  show_events: boolean;
   show_dress_code: boolean;
   show_envelope_rain: boolean;
   envelope_rain_eyebrow: string;
   envelope_rain_title: string;
   envelope_rain_note: string;
   show_rsvp: boolean;
+  show_footer: boolean;
   show_music: boolean;
   music_url: string;
+  invitation_style: 'classic' | 'maria-oscar';
 }
 export interface Guest {
   id: string;

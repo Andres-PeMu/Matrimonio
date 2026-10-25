@@ -99,16 +99,19 @@ export const settingsSchema = z.object({
     )
     .max(24, 'Máximo 24 colores.'),
   final_message: text,
+  show_hero: z.boolean(),
   show_story: z.boolean(),
   show_countdown: z.boolean(),
   show_gallery: z.boolean(),
   show_maps: z.boolean(),
+  show_events: z.boolean(),
   show_dress_code: z.boolean(),
   show_envelope_rain: z.boolean(),
   envelope_rain_eyebrow: z.string().trim().max(150),
   envelope_rain_title: z.string().trim().max(150),
   envelope_rain_note: text,
   show_rsvp: z.boolean(),
+  show_footer: z.boolean(),
   show_music: z.boolean(),
   music_url: z.union([
     z.url().refine((v) => v.startsWith('https://'), 'Usa una URL HTTPS.'),
@@ -120,6 +123,7 @@ export const settingsSchema = z.object({
       ),
     z.literal(''),
   ]),
+  invitation_style: z.enum(['classic', 'maria-oscar']),
 });
 export const mediaSchema = z.object({
   alt_text: name,

@@ -7,6 +7,8 @@ import { Countdown } from './countdown';
 import { EventMap } from '@/components/maps/event-map';
 import { FloatingRsvp } from './floating-rsvp';
 import { Rsvp } from './rsvp';
+import { ThemeRoot } from '@/components/theme-root';
+import { invitationStyle } from '@/lib/invitation-styles';
 import { coupleShortName } from '@/lib/names';
 
 export function WeddingPage({
@@ -23,16 +25,18 @@ export function WeddingPage({
   const cover = media.find((m) => m.type === 'COVER');
   const photos = media.filter((m) => m.type === 'GALLERY');
   const initials = coupleShortName(w.bride_name, w.groom_name);
+  const style = invitationStyle(s.invitation_style);
   return (
-    <div className="wedding-page">
+    <div className="wedding-page" data-style={style}>
+      <ThemeRoot style={style} />
       <header className="public-header">
         <a href="#inicio" className="monogram">
           {initials}
         </a>
         <nav aria-label="Navegación de la invitación">
-          <a href="#inicio">Inicio</a>
+          {s.show_hero !== false && <a href="#inicio">Inicio</a>}
           {s.show_story && <a href="#historia">Nuestra historia</a>}
-          <a href="#detalles">El gran día</a>
+          {s.show_events !== false && <a href="#detalles">El gran día</a>}
           {s.show_gallery && photos.length > 0 && (
             <a href="#galeria">Galería</a>
           )}
@@ -44,67 +48,71 @@ export function WeddingPage({
         </nav>
       </header>
       <main id="main">
-        <section className={`hero ${cover ? 'with-cover' : ''}`} id="inicio">
-          {cover?.url && (
-            <Image
-              className="hero-photo"
-              src={cover.url}
-              alt={cover.alt_text}
-              fill
-              sizes="100vw"
-              priority
-            />
-          )}
-          <div className="hero-content">
-            <span className="eyebrow">{w.title}</span>
-            <HeartOrnament />
-            <h1>
-              <span>{w.bride_name}</span>
-              <em>&</em>
-              <span>{w.groom_name}</span>
-            </h1>
-            <p className="hero-message">{w.description}</p>
-            <div className="wedding-date">
-              <span>
-                {new Intl.DateTimeFormat('es-CO', {
-                  month: 'long',
-                  timeZone: w.timezone,
-                }).format(date)}
-              </span>
-              <div>
-                <span>
-                  {new Intl.DateTimeFormat('es-CO', {
-                    weekday: 'short',
-                    timeZone: w.timezone,
-                  }).format(date)}
-                </span>
-                <strong>
-                  {new Intl.DateTimeFormat('es-CO', {
-                    day: '2-digit',
-                    timeZone: w.timezone,
-                  }).format(date)}
-                </strong>
-                <span>
-                  {new Intl.DateTimeFormat('es-CO', {
-                    year: 'numeric',
-                    timeZone: w.timezone,
-                  }).format(date)}
-                </span>
-              </div>
-            </div>
-            {token && s.show_rsvp ? (
-              <a href="#rsvp" className="button cta-pulse">
-                <Heart size={17} strokeWidth={1.6} aria-hidden="true" />{' '}
-                CONFIRMAR ASISTENCIA
-              </a>
-            ) : (
-              <a href="#detalles" className="button">
-                DESCUBRIR NUESTRO DÍA ↓
-              </a>
+        {s.show_hero !== false && (
+          <section className={`hero ${cover ? 'with-cover' : ''}`} id="inicio">
+            {cover?.url && (
+              <Image
+                className="hero-photo"
+                src={cover.url}
+                alt={cover.alt_text}
+                fill
+                sizes="100vw"
+                priority
+              />
             )}
-            <span className="hero-footnote">Una vida juntos comienza aquí</span>
-          </div>
-        </section>
+            <div className="hero-content">
+              <span className="eyebrow">{w.title}</span>
+              <HeartOrnament />
+              <h1>
+                <span>{w.bride_name}</span>
+                <em>&</em>
+                <span>{w.groom_name}</span>
+              </h1>
+              <p className="hero-message">{w.description}</p>
+              <div className="wedding-date">
+                <span>
+                  {new Intl.DateTimeFormat('es-CO', {
+                    month: 'long',
+                    timeZone: w.timezone,
+                  }).format(date)}
+                </span>
+                <div>
+                  <span>
+                    {new Intl.DateTimeFormat('es-CO', {
+                      weekday: 'short',
+                      timeZone: w.timezone,
+                    }).format(date)}
+                  </span>
+                  <strong>
+                    {new Intl.DateTimeFormat('es-CO', {
+                      day: '2-digit',
+                      timeZone: w.timezone,
+                    }).format(date)}
+                  </strong>
+                  <span>
+                    {new Intl.DateTimeFormat('es-CO', {
+                      year: 'numeric',
+                      timeZone: w.timezone,
+                    }).format(date)}
+                  </span>
+                </div>
+              </div>
+              {token && s.show_rsvp ? (
+                <a href="#rsvp" className="button cta-pulse">
+                  <Heart size={17} strokeWidth={1.6} aria-hidden="true" />{' '}
+                  CONFIRMAR ASISTENCIA
+                </a>
+              ) : s.show_events ? (
+                <a href="#detalles" className="button">
+                  DESCUBRIR NUESTRO DÍA ↓
+                </a>
+              ) : null}
+              <span className="hero-footnote">
+                Una vida juntos comienza aquí
+              </span>
+            </div>
+          </section>
+        )}
         {s.show_countdown && (
           <section className="countdown-section">
             <span className="eyebrow">CADA VEZ FALTA MENOS</span>
@@ -125,83 +133,89 @@ export function WeddingPage({
             </div>
           </section>
         )}
-        <section id="detalles" className="details-section">
-          <div className="section-heading">
-            <span className="eyebrow">EL GRAN DÍA</span>
-            <h2>Momentos para recordar</h2>
-            <p>Será aún más especial si lo compartimos contigo.</p>
-          </div>
-          <div className="event-grid">
-            {events.length === 0 ? (
-              <p className="muted">
-                Pronto compartiremos los detalles de nuestra celebración.
-              </p>
-            ) : (
-              events.map((event, i) => {
-                const location = locations.find(
-                  (l) => l.id === event.location_id,
-                );
-                return (
-                  <article className="event-card" key={event.id}>
-                    <span className="event-number">0{i + 1}</span>
-                    <h3>{event.name}</h3>
-                    <p className="event-time">
-                      {new Intl.DateTimeFormat('es-CO', {
-                        dateStyle: 'long',
-                        timeZone: 'UTC',
-                      }).format(new Date(event.event_date + 'T12:00:00Z'))}
-                      <br />
-                      {event.start_time.slice(0, 5)}
-                      {event.end_time ? ` – ${event.end_time.slice(0, 5)}` : ''}
-                    </p>
-                    <p>{event.description}</p>
-                    {location && (
-                      <>
-                        <h4>{location.name}</h4>
-                        <p>
-                          {location.address && (
-                            <>
-                              {location.address}
-                              <br />
-                            </>
+        {s.show_events !== false && (
+          <section id="detalles" className="details-section">
+            <div className="section-heading">
+              <span className="eyebrow">EL GRAN DÍA</span>
+              <h2>Momentos para recordar</h2>
+              <p>Será aún más especial si lo compartimos contigo.</p>
+            </div>
+            <div className="event-grid">
+              {events.length === 0 ? (
+                <p className="muted">
+                  Pronto compartiremos los detalles de nuestra celebración.
+                </p>
+              ) : (
+                events.map((event, i) => {
+                  const location = locations.find(
+                    (l) => l.id === event.location_id,
+                  );
+                  return (
+                    <article className="event-card" key={event.id}>
+                      <span className="event-number">0{i + 1}</span>
+                      <h3>{event.name}</h3>
+                      <p className="event-time">
+                        {new Intl.DateTimeFormat('es-CO', {
+                          dateStyle: 'long',
+                          timeZone: 'UTC',
+                        }).format(new Date(event.event_date + 'T12:00:00Z'))}
+                        <br />
+                        {event.start_time.slice(0, 5)}
+                        {event.end_time
+                          ? ` – ${event.end_time.slice(0, 5)}`
+                          : ''}
+                      </p>
+                      <p>{event.description}</p>
+                      {location && (
+                        <>
+                          <h4>{location.name}</h4>
+                          <p>
+                            {location.address && (
+                              <>
+                                {location.address}
+                                <br />
+                              </>
+                            )}
+                            {[location.city, location.state, location.country]
+                              .filter(Boolean)
+                              .join(', ')}
+                          </p>
+                          {location.description && (
+                            <p>{location.description}</p>
                           )}
-                          {[location.city, location.state, location.country]
-                            .filter(Boolean)
-                            .join(', ')}
-                        </p>
-                        {location.description && <p>{location.description}</p>}
-                        {s.show_maps && (
-                          <EventMap
-                            latitude={location.latitude}
-                            longitude={location.longitude}
-                          />
-                        )}
-                        <a
-                          className="text-link"
-                          href={`https://www.google.com/maps/dir/?api=1&destination=${location.latitude},${location.longitude}&travelmode=driving`}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Cómo llegar ↗
-                        </a>
-                        {location.parking_information && (
-                          <p className="small">
-                            Estacionamiento: {location.parking_information}
-                          </p>
-                        )}
-                        {location.additional_information && (
-                          <p className="small">
-                            {location.additional_information}
-                          </p>
-                        )}
-                      </>
-                    )}
-                  </article>
-                );
-              })
-            )}
-          </div>
-        </section>
+                          {s.show_maps && (
+                            <EventMap
+                              latitude={location.latitude}
+                              longitude={location.longitude}
+                            />
+                          )}
+                          <a
+                            className="text-link"
+                            href={`https://www.google.com/maps/dir/?api=1&destination=${location.latitude},${location.longitude}&travelmode=driving`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            Cómo llegar ↗
+                          </a>
+                          {location.parking_information && (
+                            <p className="small">
+                              Estacionamiento: {location.parking_information}
+                            </p>
+                          )}
+                          {location.additional_information && (
+                            <p className="small">
+                              {location.additional_information}
+                            </p>
+                          )}
+                        </>
+                      )}
+                    </article>
+                  );
+                })
+              )}
+            </div>
+          </section>
+        )}
         {s.show_gallery && photos.length > 0 && (
           <section className="gallery-section" id="galeria">
             <div className="section-heading">
@@ -279,23 +293,25 @@ export function WeddingPage({
               </p>
             </section>
           ))}
-        <footer className="wedding-footer">
-          <HeartOrnament />
-          <p>{s.final_message}</p>
-          <div className="signature">{initials}</div>
-          <span className="eyebrow">CON TODO NUESTRO AMOR</span>
-          {!hideMusic && s.show_music && s.music_url && (
-            <audio
-              controls
-              preload="none"
-              src={s.music_url}
-              aria-label="Música de nuestra boda"
-            />
-          )}
-          <Link href="/admin/login" className="admin-link">
-            Administración
-          </Link>
-        </footer>
+        {s.show_footer !== false && (
+          <footer className="wedding-footer">
+            <HeartOrnament />
+            <p>{s.final_message}</p>
+            <div className="signature">{initials}</div>
+            <span className="eyebrow">CON TODO NUESTRO AMOR</span>
+            {!hideMusic && s.show_music && s.music_url && (
+              <audio
+                controls
+                preload="none"
+                src={s.music_url}
+                aria-label="Música de nuestra boda"
+              />
+            )}
+            <Link href="/admin/login" className="admin-link">
+              Administración
+            </Link>
+          </footer>
+        )}
       </main>
       {token &&
         s.show_rsvp &&

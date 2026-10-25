@@ -1,5 +1,6 @@
 import 'server-only';
 import { adminClient } from '@/lib/supabase/admin';
+import { invitationStyle, type InvitationStyle } from '@/lib/invitation-styles';
 import { tokenSchema } from '@/lib/validations';
 import type {
   PublicWedding,
@@ -13,14 +14,15 @@ import type {
 } from '@/types/domain';
 export async function publicWedding(
   id?: string,
+  options?: { allowDraft?: boolean },
 ): Promise<PublicWedding | null> {
   const db = adminClient();
   let query = db
     .from('weddings')
     .select(
       'id,slug,bride_name,groom_name,title,description,wedding_date,timezone,rsvp_deadline,status',
-    )
-    .eq('status', 'PUBLISHED');
+    );
+  if (!options?.allowDraft) query = query.eq('status', 'PUBLISHED');
   query = id
     ? query.eq('id', id)
     : query.eq('slug', process.env.WEDDING_SLUG || 'astrid-andres');
@@ -76,18 +78,22 @@ export async function publicWedding(
       show_dress_code_colors: s.show_dress_code_colors,
       dress_code_colors: s.dress_code_colors,
       final_message: s.final_message,
+      show_hero: s.show_hero,
       show_story: s.show_story,
       show_countdown: s.show_countdown,
       show_gallery: s.show_gallery,
       show_maps: s.show_maps,
+      show_events: s.show_events,
       show_dress_code: s.show_dress_code,
       show_envelope_rain: s.show_envelope_rain,
       envelope_rain_eyebrow: s.envelope_rain_eyebrow,
       envelope_rain_title: s.envelope_rain_title,
       envelope_rain_note: s.envelope_rain_note,
       show_rsvp: s.show_rsvp,
+      show_footer: s.show_footer,
       show_music: s.show_music,
       music_url: s.music_url,
+      invitation_style: s.invitation_style,
     },
     events: (results[1].data as WeddingEvent[]).map((e) => ({
       id: e.id,
@@ -124,6 +130,46 @@ export async function publicWedding(
     })),
   };
 }
+async function styleForWedding(
+  weddingId: string,
+): Promise<InvitationStyle | null> {
+  const db = adminClient();
+  const { data: settings } = await db
+    .from('wedding_settings')
+    .select('invitation_style')
+    .eq('wedding_id', weddingId)
+    .maybeSingle();
+  return settings ? invitationStyle(settings.invitation_style) : null;
+}
+
+/** Portada pública: siempre la boda de WEDDING_SLUG, nunca otra cookie. */
+export async function invitationStyleForPublicHome(): Promise<InvitationStyle | null> {
+  const db = adminClient();
+  const { data: wedding } = await db
+    .from('weddings')
+    .select('id')
+    .eq('slug', process.env.WEDDING_SLUG || 'astrid-andres')
+    .eq('status', 'PUBLISHED')
+    .maybeSingle();
+  if (!wedding) return null;
+  return styleForWedding(wedding.id);
+}
+
+/** Solo el estilo, para pintar el html antes del primer frame. */
+export async function invitationStyleByToken(
+  token: string,
+): Promise<InvitationStyle | null> {
+  if (!tokenSchema.safeParse(token).success) return null;
+  const db = adminClient();
+  const { data: guest, error } = await db
+    .from('guests')
+    .select('wedding_id')
+    .eq('invitation_token', token)
+    .maybeSingle();
+  if (error || !guest) return null;
+  return styleForWedding(guest.wedding_id);
+}
+
 export async function invitation(token: string): Promise<Invitation | null> {
   if (!tokenSchema.safeParse(token).success) return null;
   const db = adminClient();
@@ -134,7 +180,7 @@ export async function invitation(token: string): Promise<Invitation | null> {
     .maybeSingle();
   if (error) throw new Error('No se pudo cargar la invitación.');
   if (!g) return null;
-  const data = await publicWedding(g.wedding_id);
+  const data = await publicWedding(g.wedding_id, { allowDraft: true });
   if (!data) return null;
   const { data: c, error: ce } = await db
     .from('guest_confirmations')

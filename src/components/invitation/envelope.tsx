@@ -4,6 +4,8 @@ import { ArrowDown, Heart } from 'lucide-react';
 import { useRef, useState } from 'react';
 import type { Invitation } from '@/types/domain';
 import { HeartOrnament } from '@/components/ui/heart-ornament';
+import { ThemeRoot } from '@/components/theme-root';
+import { invitationStyle } from '@/lib/invitation-styles';
 import { Soundtrack, type SoundtrackHandle } from './soundtrack';
 import { WeddingPage } from './wedding-page';
 
@@ -15,6 +17,7 @@ export function Envelope({ data, token }: { data: Invitation; token: string }) {
     data.settings.show_music && data.settings.music_url
       ? data.settings.music_url
       : '';
+  const style = invitationStyle(data.settings.invitation_style);
 
   function openEnvelope() {
     if (!opened) soundtrackRef.current?.play();
@@ -23,11 +26,12 @@ export function Envelope({ data, token }: { data: Invitation; token: string }) {
 
   return (
     <>
+      <ThemeRoot style={style} />
       {musicUrl ? <Soundtrack ref={soundtrackRef} url={musicUrl} /> : null}
       {discovered ? (
         <WeddingPage data={data} token={token} hideMusic />
       ) : (
-        <main id="main" className="envelope-page">
+        <main id="main" className="envelope-page" data-style={style}>
           <div className="envelope-intro">
             <p className="eyebrow">CON AMOR, PARA TI</p>
             <h1 className="sr-only">Tu invitación de boda</h1>
@@ -75,10 +79,18 @@ export function Envelope({ data, token }: { data: Invitation; token: string }) {
               aria-expanded={opened}
             >
               <Image
-                src="/envelope/wax-seal-af.webp"
+                src={
+                  style === 'maria-oscar'
+                    ? '/themes/azul-cielo-amor/gold-rings-wax-seal.png'
+                    : '/envelope/wax-seal-af.webp'
+                }
                 width={480}
                 height={480}
-                alt="Sello de cera marfil con las iniciales A y F"
+                alt={
+                  style === 'maria-oscar'
+                    ? 'Sello de cera dorado con dos anillos entrelazados'
+                    : 'Sello de cera marfil con las iniciales A y F'
+                }
                 sizes="(max-width: 600px) 116px, 150px"
                 preload
                 draggable={false}

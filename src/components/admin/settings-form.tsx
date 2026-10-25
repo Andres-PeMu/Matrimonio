@@ -4,13 +4,20 @@ import { useRouter } from 'next/navigation';
 import type { Settings, Wedding } from '@/types/domain';
 import { saveSettings } from '@/actions/manage';
 import { localDateTime, zonedToIso } from '@/lib/dates';
+import { invitationStyle } from '@/lib/invitation-styles';
 import { DressColorsEditor } from './dress-colors-editor';
+import { StylePicker } from './style-picker';
 const toggles = [
-  ['show_story', 'Nuestra historia'],
+  ['show_hero', 'Portada'],
   ['show_countdown', 'Cuenta regresiva'],
+  ['show_story', 'Nuestra historia'],
+  ['show_events', 'El gran día'],
   ['show_gallery', 'Galería'],
   ['show_maps', 'Mapas'],
+  ['show_dress_code', 'Código de vestimenta'],
+  ['show_envelope_rain', 'Lluvia de sobres'],
   ['show_rsvp', 'Confirmación de asistencia'],
+  ['show_footer', 'Mensaje final'],
   ['show_music', 'Reproductor de música'],
 ] as const;
 export function SettingsForm({
@@ -49,15 +56,14 @@ export function SettingsForm({
             dress_code_eyebrow: val('dress_code_eyebrow'),
             dress_code_title: val('dress_code_title'),
             dress_code_note: val('dress_code_note'),
-            show_dress_code: f.has('show_dress_code'),
             show_dress_code_colors: f.has('show_dress_code_colors'),
             dress_code_colors: JSON.parse(val('dress_code_colors') || '[]'),
-            show_envelope_rain: f.has('show_envelope_rain'),
             envelope_rain_eyebrow: val('envelope_rain_eyebrow'),
             envelope_rain_title: val('envelope_rain_title'),
             envelope_rain_note: val('envelope_rain_note'),
             final_message: val('final_message'),
             music_url: val('music_url'),
+            invitation_style: invitationStyle(val('invitation_style')),
             ...Object.fromEntries(toggles.map(([key]) => [key, f.has(key)])),
           };
           const result = await saveSettings({ wedding, settings });
@@ -72,6 +78,18 @@ export function SettingsForm({
         }
       }}
     >
+      <section className="panel">
+        <h2>Estilo de la invitación</h2>
+        <p className="small muted">
+          Elige la base visual. Al cambiarla se pinta todo, incluido este panel.
+          Si vuelves a Pastel amor, recuperas el look anterior. Lo que ajustemos
+          de aquí en adelante es solo para Azul cielo amor.
+        </p>
+        <StylePicker
+          name="invitation_style"
+          initial={invitationStyle(s.invitation_style)}
+        />
+      </section>
       <section className="panel">
         <h2>Los protagonistas</h2>
         <div className="form-grid">
@@ -157,14 +175,9 @@ export function SettingsForm({
       </section>
       <section className="panel">
         <h2>Código de vestimenta</h2>
-        <label className="checkbox">
-          <input
-            name="show_dress_code"
-            type="checkbox"
-            defaultChecked={s.show_dress_code}
-          />
-          Mostrar esta sección en la invitación
-        </label>
+        <p className="small muted">
+          Se muestra solo si está activa en Secciones de la invitación.
+        </p>
         <div className="form-grid">
           <label>
             Subtítulo
@@ -223,14 +236,9 @@ export function SettingsForm({
       </section>
       <section className="panel">
         <h2>Lluvia de sobres</h2>
-        <label className="checkbox">
-          <input
-            name="show_envelope_rain"
-            type="checkbox"
-            defaultChecked={s.show_envelope_rain}
-          />
-          Mostrar esta sección en la invitación
-        </label>
+        <p className="small muted">
+          Se muestra solo si está activa en Secciones de la invitación.
+        </p>
         <div className="form-grid">
           <label>
             Subtítulo
@@ -267,6 +275,9 @@ export function SettingsForm({
       </section>
       <section className="panel">
         <h2>Secciones de la invitación</h2>
+        <p className="small muted">
+          Desmarca lo que no quieras en esta tarjeta. No cambia las demás bodas.
+        </p>
         <div className="toggle-grid">
           {toggles.map(([key, label]) => (
             <label key={key} className="checkbox">

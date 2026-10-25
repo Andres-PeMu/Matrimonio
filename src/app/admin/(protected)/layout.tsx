@@ -3,6 +3,8 @@ import { Heart } from 'lucide-react';
 import { requireAdmin } from '@/lib/auth/admin';
 import { logout, selectWedding } from '@/actions/auth';
 import { Navigation } from '@/components/admin/navigation';
+import { ThemeRoot } from '@/components/theme-root';
+import { invitationStyle } from '@/lib/invitation-styles';
 import { coupleShortName } from '@/lib/names';
 export const dynamic = 'force-dynamic';
 export default async function AdminLayout({
@@ -10,9 +12,18 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { profile, weddings, wedding } = await requireAdmin();
+  const { db, profile, weddings, wedding } = await requireAdmin();
+  const { data: settings } = wedding
+    ? await db
+        .from('wedding_settings')
+        .select('invitation_style')
+        .eq('wedding_id', wedding.id)
+        .maybeSingle()
+    : { data: null };
+  const style = invitationStyle(settings?.invitation_style);
   return (
-    <div className="admin-layout">
+    <div className="admin-layout" data-style={style}>
+      <ThemeRoot style={style} />
       <aside className="admin-sidebar">
         <Link className="admin-brand" href="/admin/dashboard">
           <span className="brand-mark">

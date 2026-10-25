@@ -134,3 +134,9 @@ test('music accepts HTTPS URLs or audio files from /music/', () => {
   ])
     assert.equal(music.safeParse(value).success, false, value);
 });
+test('invitation style only accepts the two visual bases', () => {
+  const style = settingsSchema.shape.invitation_style;
+  assert.ok(style.safeParse('classic').success);
+  assert.ok(style.safeParse('maria-oscar').success);
+  assert.equal(style.safeParse('otro').success, false);
+});
