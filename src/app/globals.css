@@ -3098,3 +3098,43 @@ html[data-style='maria-oscar'] .login-page {
 [data-style='maria-oscar'] .login-card .button {
   background: linear-gradient(180deg, #1a3d7a, #0d1f4d);
 }
+[data-style='maria-oscar'] .dashboard-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #f4f7fb;
+  background:
+    linear-gradient(120deg, #16356bdc, #061733f2),
+    url('/themes/azul-cielo-amor/navy-linen.png') center / cover;
+  border-color: #d3ae4e;
+}
+[data-style='maria-oscar'] .dashboard-banner::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  right: -70px;
+  bottom: -42px;
+  width: min(420px, 55%);
+  aspect-ratio: 8 / 3;
+  background: url('/themes/azul-cielo-amor/blue-watercolor-flowers.png')
+    center / contain no-repeat;
+  transform: rotate(168deg);
+  opacity: 0.86;
+  pointer-events: none;
+}
+[data-style='maria-oscar'] .dashboard-banner .eyebrow {
+  color: #f1d27c;
+}
+[data-style='maria-oscar'] .dashboard-banner h2 {
+  color: #ffffff;
+}
+[data-style='maria-oscar'] .dashboard-banner p {
+  color: #dce6f4;
+}
+[data-style='maria-oscar'] .dashboard-banner .button {
+  background: #c6a35a;
+  color: #0d1f4d;
+}
+[data-style='maria-oscar'] .dashboard-banner .button:hover {
+  background: #f1d27c;
+}
