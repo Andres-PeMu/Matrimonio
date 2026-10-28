@@ -2917,19 +2917,48 @@ td small {
 }
 [data-style='maria-oscar'].wedding-page .event-card {
   color: #f7fbff;
-  border-color: #d4b257;
-  outline-color: #eed68285;
-  background: #102f62;
+  border: 1px solid #d3ae4e99;
+  border-image: none;
+  outline: 7px solid #102f6270;
+  outline-offset: -12px;
+  background:
+    linear-gradient(145deg, #244f865e, #061733e8),
+    url('/themes/azul-cielo-amor/navy-linen.png') center / cover;
   box-shadow: 0 16px 34px #071a3430;
+  text-shadow: 0 2px 8px #020817;
+}
+[data-style='maria-oscar'].wedding-page .event-card::before,
+[data-style='maria-oscar'].wedding-page .event-card::after {
+  content: '';
+  position: absolute;
+  inset: auto;
+  left: 50%;
+  width: min(540px, 135%);
+  height: 92px;
+  transform: translateX(-50%);
+  background: url('/themes/azul-cielo-amor/blue-watercolor-flowers.png')
+    center / contain no-repeat;
+  filter: none;
+  opacity: 0.9;
+  z-index: 0;
+  pointer-events: none;
 }
 [data-style='maria-oscar'].wedding-page .event-card::before {
-  background:
-    url('/themes/azul-cielo-amor/blue-watercolor-flowers.png') center
-      top -38px / 120% auto no-repeat,
-    linear-gradient(145deg, #2a568c5c, #071b3dcf),
-    url('/themes/azul-cielo-amor/navy-linen.png') center / cover;
-  filter: none;
-  opacity: 1;
+  top: -58px;
+}
+[data-style='maria-oscar'].wedding-page .event-card::after {
+  bottom: -58px;
+  transform: translateX(-50%) rotate(180deg);
+}
+[data-style='maria-oscar'].wedding-page .event-card > * {
+  position: relative;
+  z-index: 1;
+}
+[data-style='maria-oscar'].wedding-page .event-card h3 {
+  color: #fff;
+}
+[data-style='maria-oscar'].wedding-page .event-card .event-time {
+  color: #dce6f4;
 }
 [data-style='maria-oscar'].wedding-page .event-card .text-link,
 [data-style='maria-oscar'].wedding-page .event-card .event-number {
@@ -3122,11 +3151,16 @@ td small {
   [data-style='maria-oscar'].wedding-page .hero h1 {
     font-size: clamp(39px, 12vw, 54px);
   }
+  [data-style='maria-oscar'].wedding-page .event-card::before,
+  [data-style='maria-oscar'].wedding-page .event-card::after {
+    width: min(460px, 150%);
+    height: 78px;
+  }
   [data-style='maria-oscar'].wedding-page .event-card::before {
-    background-size:
-      135% auto,
-      auto,
-      cover;
+    top: -48px;
+  }
+  [data-style='maria-oscar'].wedding-page .event-card::after {
+    bottom: -48px;
   }
 }
 
